@@ -21,12 +21,12 @@ class District(models.Model):
     superficie = models.FloatField(help_text="Surface en km²", null=True, blank=True) # normalment tokony hitovy @somme ny surface ny commune rehetra ao aminy
     nb_commune = models.PositiveIntegerField(default=1)
     distance_vers_antsohihy = models.FloatField(help_text="Distance en km")
+    # Champ météo spécifique mis à jour par l'IA toutes les 6h
     description_climat = models.TextField(blank=True)
-    # Champ météo spécifique mis à jour par l'IA toutes les 2h
     meteo_info = models.JSONField(default=dict, blank=True)
 
     def __str__(self):
-        self.nom
+        return self.nom
 
 class Commune(models.Model):
     choix = [
@@ -43,7 +43,7 @@ class Commune(models.Model):
     longitude = models.FloatField(null=True, blank=True) #tsy mazava hoe inona ity
 
     def __str__(self):
-        f"{self.nom} ({self.district.nom})"
+        return f"{self.nom} ({self.district.nom})"
 
 class Quartier(models.Model):
     commune = models.ForeignKey(Commune, on_delete=models.CASCADE, related_name='quartiers')
