@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('core_sofia.urls')), # Toutes les APIs seront sous /api/
+    path('api/', include('appli.urls')), # Toutes les APIs seront sous /api/
 ]
 
 # Indispensable pour voir les photos 
