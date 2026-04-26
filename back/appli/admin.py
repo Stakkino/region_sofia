@@ -24,7 +24,7 @@ class RegionAdmin(admin.ModelAdmin):
 
 @admin.register(District)
 class DistrictAdmin(admin.ModelAdmin):
-    list_display = ('nom', 'region', 'nb_commune', 'distance_vers_antsohihy')
+    list_display = ('nom', 'code_postal', 'region', 'nb_commune', 'distance_vers_antsohihy')
     list_filter = ('region',)
     search_fields = ('nom',)
     inlines = [CommuneInline]

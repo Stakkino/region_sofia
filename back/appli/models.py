@@ -7,7 +7,7 @@ from django.db import models
 
 class Region(models.Model):
     nom = models.CharField(max_length=30, default="SOFIA")
-    chef_lieu = models.CharField(max_length=30, default="Antsohihy")
+    chef_lieu = models.CharField(max_length=30, default="Antsohihy (407)")
     nb_district = models.PositiveIntegerField(default=1)
     # L'IA pourra remplir ceci avec les données météo globales
     meteo_actuelle = models.CharField(max_length=100, blank=True)
@@ -18,7 +18,8 @@ class Region(models.Model):
 class District(models.Model):
     region = models.ForeignKey(Region, on_delete=models.PROTECT, related_name='districts')
     nom = models.CharField(max_length=50)
-    superficie = models.FloatField(help_text="Surface en km²", null=True, blank=True) # normalment tokony hitovy @somme ny surface ny commune rehetra ao aminy
+    code_postal = models.CharField(max_length=5, blank=True, null=True)
+    superficie = models.FloatField(help_text="Surface en km²", null=True, blank=True)
     nb_commune = models.PositiveIntegerField(default=1)
     distance_vers_antsohihy = models.FloatField(help_text="Distance en km")
     # Champ météo spécifique mis à jour par l'IA toutes les 6h
@@ -39,8 +40,8 @@ class Commune(models.Model):
     type_commune = models.CharField(max_length=10, choices=choix)
     population = models.PositiveIntegerField(default=0)
     surface = models.FloatField(help_text="Surface en km²", null=True, blank=True)
-    latitude = models.FloatField(null=True, blank=True) #tsy mazava hoe inona ity
-    longitude = models.FloatField(null=True, blank=True) #tsy mazava hoe inona ity
+    latitude = models.FloatField(null=True, blank=True) 
+    longitude = models.FloatField(null=True, blank=True) 
 
     def __str__(self):
         return f"{self.nom} ({self.district.nom})"
