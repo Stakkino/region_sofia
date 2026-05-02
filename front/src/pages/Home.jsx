@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom'; // Importation pour la navigation
 import { getRegions } from '../services/api';
 import { MapPin, Wind, ArrowRight } from 'lucide-react';
 
 const Home = () => {
     const [regionData, setRegionData] = useState(null);
     const [loading, setLoading] = useState(true);
-    
-    // Automatisation de l'année pour le côté "Pro"
     const currentYear = new Date().getFullYear();
 
     useEffect(() => {
         getRegions()
             .then(res => {
-                // On prend la première région (SOFIA)
                 if(res.data.length > 0) setRegionData(res.data[0]);
                 setLoading(false);
             })
@@ -42,15 +40,12 @@ const Home = () => {
                             sublimée par l'intelligence artificielle pour une expérience voyageur inédite.
                         </p>
                         
-                        {/* Rectification du conflit flex/inline-flex */}
                         <div className="inline-flex items-center gap-4 glass-card p-4 text-sofia-green font-medium">
                             <Wind className="text-sofia-gold animate-pulse" />
                             <span>Météo locale : {regionData?.meteo_actuelle || "Calcul en cours..."}</span>
                         </div>
                     </div>
                 </div>
-                
-                {/* Rectification v4 : bg-linear-to-t au lieu de bg-gradient-to-t */}
                 <div className="absolute bottom-0 w-full h-32 bg-linear-to-t from-sofia-light to-transparent"></div>
             </section>
 
@@ -62,8 +57,7 @@ const Home = () => {
                         <div className="w-24 h-1.5 bg-sofia-gold mt-3 rounded-full"></div>
                     </div>
                     <p className="text-gray-600 max-w-md italic border-l-4 border-sofia-gold pl-4">
-                        La Sofia s'étend sur {regionData?.nb_district || 7} districts majeurs, 
-                        allant des plaines rizicoles aux massifs montagneux.
+                        La Sofia s'étend sur {regionData?.nb_district || 7} districts majeurs.
                     </p>
                 </div>
 
@@ -85,38 +79,30 @@ const Home = () => {
                                 </div>
                                 
                                 <p className="text-gray-600 leading-relaxed mb-8 line-clamp-3">
-                                    {district.description_climat || "Informations climatiques en cours de synchronisation par l'IA..."}
+                                    {district.description_climat || "Informations IA en cours..."}
                                 </p>
                                 
-                                <button className="flex items-center gap-2 text-sofia-green font-black uppercase text-xs tracking-widest group-hover:gap-4 transition-all">
+                                {/* LE LIEN DE NAVIGATION VERS LE DÉTAIL */}
+                                <Link 
+                                    to={`/district/${district.id}`} 
+                                    className="flex items-center gap-2 text-sofia-green font-black uppercase text-xs tracking-widest group-hover:gap-4 transition-all no-underline"
+                                >
                                     Découvrir le district <ArrowRight size={16} />
-                                </button>
+                                </Link>
                             </div>
                         </div>
                     ))}
                 </div>
             </section>
 
-            {/* --- SIGNATURE PROFESSIONNELLE --- */}
+            {/* --- FOOTER --- */}
             <footer className="bg-white border-t border-gray-100 py-16">
                 <div className="container mx-auto px-6 text-center">
-                    <div className="mb-8 flex justify-center space-x-2">
-                        <div className="w-2 h-2 bg-sofia-gold rounded-full"></div>
-                        <div className="w-2 h-2 bg-sofia-green rounded-full"></div>
-                        <div className="w-2 h-2 bg-sofia-gold rounded-full"></div>
-                    </div>
-                    <p className="text-gray-400 text-sm tracking-[0.2em] uppercase mb-4">
-                        Projet Intelligence Territoriale
-                    </p>
                     <h3 className="text-xl font-bold text-sofia-green">
                         NJAKANERA Nostos Duk'S Stakkino
                     </h3>
-                    <p className="text-gray-500 mt-2 font-light">
-                        Backend Developer & AI Specialist
-                    </p>
-                    <p className="mt-10 text-xs text-gray-300 font-mono">
-                        © {currentYear} — DIGITAL SOFIA SYSTEM V1.0
-                    </p>
+                    <p className="text-gray-500 mt-2 font-light">Backend Developer & AI Specialist</p>
+                    <p className="mt-10 text-xs text-gray-300 font-mono">© {currentYear} — DIGITAL SOFIA SYSTEM V1.0</p>
                 </div>
             </footer>
         </div>
