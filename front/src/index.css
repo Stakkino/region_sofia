@@ -1,48 +1,936 @@
 @import "tailwindcss";
 
-/* On encapsule dans @theme pour Tailwind v4 */
-@theme {
-  --color-sofia-green: #1b4332;
-  --color-sofia-gold: #d4a373;
-  --color-sofia-light: #fefae0;
+.text-outline {
+  -webkit-text-stroke: 1px #d4a373;
+  color: transparent;
 }
 
-/* --- 75% CSS PUR --- */
+@keyframes scaleUp {
+  from { transform: scale(1); }
+  to { transform: scale(1.1); }
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+/* ── TOKENS ── */
 :root {
-  font-family: 'Inter', system-ui, sans-serif;
-  background-color: var(--color-sofia-light);
-  color: #2b2d42;
+    --gold:        #C9A96E;
+    --gold-light:  #E8CFA0;
+    --gold-faint:  rgba(201,169,110,0.15);
+    --green-deep:  #0D2B1F;
+    --green-mid:   #1A4230;
+    --green-soft:  #2E6047;
+    --white:       #FDFBF7;
+    --off-white:   #F5F1E8;
+    --ink:         #1A1610;
+    --muted:       rgba(26,22,16,0.5);
+    --radius-sm:   6px;
+    --radius-md:   14px;
+    --radius-lg:   24px;
+    --radius-xl:   40px;
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Animation fluide pour l'entrée des éléments */
-.fade-in-up {
-  animation: fadeInUp 0.8s ease-out forwards;
+/* ── BASE ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+.home-root {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--ink);
+    overflow-x: hidden;
 }
 
-@keyframes fadeInUp {
-  from {
+/* ══════════════════════════════════════
+   LOADING
+══════════════════════════════════════ */
+.loading-screen {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--green-deep);
+}
+.loading-inner {
+    text-align: center;
+    animation: fadeIn 0.6s ease;
+}
+.loading-logo {
+    width: 72px;
+    height: 72px;
+    border: 1.5px solid var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    color: var(--gold);
+    animation: pulse 1.4s ease-in-out infinite;
+}
+.loading-text {
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    color: rgba(201,169,110,0.6);
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+/* ══════════════════════════════════════
+   HERO
+══════════════════════════════════════ */
+.hero-section {
+    position: relative;
+    height: 100svh;
+    min-height: 620px;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+}
+
+/* Slideshow */
+.hero-slide {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
     opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
+    transform: scale(1.06);
+    transition: opacity 1.4s var(--ease-smooth), transform 7s var(--ease-smooth);
+}
+.hero-slide.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Grain texture */
+.hero-grain {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Gradient vignette */
+.hero-vignette {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(5,15,10,0.92) 0%,
+        rgba(5,15,10,0.45) 40%,
+        rgba(5,15,10,0.15) 70%,
+        rgba(5,15,10,0.3)  100%
+    );
+    z-index: 2;
+}
+
+/* Map deco */
+.hero-map-deco {
+    position: absolute;
+    right: -4%;
+    top: 5%;
+    width: 44%;
+    height: 90%;
+    opacity: 0.08;
+    pointer-events: none;
+    z-index: 3;
+    mix-blend-mode: luminosity;
+}
+.hero-map-deco img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Slide indicators */
+.hero-indicators {
+    position: absolute;
+    bottom: 2.5rem;
+    right: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 10;
+}
+.indicator-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s, height 0.3s;
+    padding: 0;
+}
+.indicator-dot.active {
+    background: var(--gold);
+    height: 22px;
+    border-radius: 3px;
+}
+
+/* Hero content */
+.hero-content {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    padding: 0 6vw 7vh;
+    color: #fff;
+}
+
+.hero-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 1.6rem;
+}
+.eyebrow-line {
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+}
+.eyebrow-text {
+    font-size: 0.72rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    font-weight: 400;
+}
+
+.hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.2rem, 8vw, 7rem);
+    font-weight: 300;
+    line-height: 1.0;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.4rem;
+    color: #fff;
+}
+.hero-title-em {
+    font-style: italic;
+    color: var(--gold-light);
+}
+
+.hero-subtitle {
+    font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+    font-weight: 300;
+    line-height: 1.75;
+    max-width: 480px;
+    color: rgba(255,255,255,0.72);
+    margin-bottom: 2.4rem;
+}
+
+/* Météo */
+.hero-meteo {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(255,255,255,0.07);
+    border: 0.5px solid rgba(201,169,110,0.35);
+    border-radius: var(--radius-xl);
+    padding: 10px 20px 10px 12px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    margin-bottom: 3rem;
+}
+.meteo-icon-wrap {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--gold-faint);
+    border: 0.5px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+}
+.meteo-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 2px;
+    font-weight: 400;
+}
+.meteo-value {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.9);
+}
+
+/* Scroll cue */
+.scroll-cue {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: rgba(255,255,255,0.35);
+}
+.scroll-line {
+    display: block;
+    width: 1px;
+    height: 48px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+}
+.scroll-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: 400;
+    writing-mode: vertical-rl;
+}
+
+/* ══════════════════════════════════════
+   INTRO SECTION
+══════════════════════════════════════ */
+.intro-section {
+    background: var(--off-white);
+    padding: 7rem 6vw;
+    position: relative;
+    overflow: hidden;
+}
+.intro-section::before {
+    content: 'SOFIA';
+    position: absolute;
+    right: -2%;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18vw;
+    font-weight: 600;
+    color: rgba(201,169,110,0.06);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+}
+.intro-inner {
+    max-width: 680px;
+    position: relative;
+    z-index: 1;
+}
+.intro-overline {
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 1.2rem;
+    display: block;
+}
+.intro-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--green-deep);
+    margin-bottom: 1.4rem;
+}
+.intro-body {
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.85;
+    color: var(--muted);
+    max-width: 560px;
+}
+
+/* ══════════════════════════════════════
+   DISTRICTS SECTION
+══════════════════════════════════════ */
+.districts-section {
+    padding: 7rem 6vw;
+    background: var(--white);
+}
+.districts-header {
+    margin-bottom: 3rem;
+}
+.section-overline {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+}
+.section-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 400;
+    color: var(--green-deep);
+    line-height: 1.1;
+}
+
+/* District grid */
+.districts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    gap: 20px;
+}
+@media (max-width: 700px) {
+    .districts-grid { grid-template-columns: 1fr; }
+}
+
+.district-card {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    cursor: pointer;
+}
+.card-large { grid-row: span 1; aspect-ratio: 4/3; }
+.card-small { aspect-ratio: 4/3; }
+
+@media (min-width: 900px) {
+    .card-large { aspect-ratio: 3/2; }
+}
+
+.district-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.9s var(--ease-smooth);
+}
+.district-card:hover .district-img {
+    transform: scale(1.06);
+}
+
+.district-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(5, 20, 12, 0.88) 0%,
+        rgba(5, 20, 12, 0.2) 55%,
+        transparent 100%
+    );
+    transition: opacity 0.4s;
+}
+.district-card:hover .district-overlay {
+    opacity: 0.85;
+}
+
+.district-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2rem;
+    color: #fff;
+}
+
+.district-pin {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 0.6rem;
+    font-weight: 400;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.4s 0.05s, transform 0.4s 0.05s;
+}
+.district-card:hover .district-pin {
     opacity: 1;
     transform: translateY(0);
-  }
 }
 
-.glass-card {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 15px;
+.district-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 400;
+    line-height: 1;
+    margin-bottom: 1.2rem;
+    letter-spacing: 0.01em;
 }
 
-/* Style spécifique pour la carte de district au survol */
-.district-card-hover {
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+.district-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+    border: 1px solid rgba(201,169,110,0.6);
+    color: var(--gold-light);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: var(--radius-xl);
+    transition: background 0.3s, border-color 0.3s, color 0.3s;
+    width: fit-content;
+}
+.district-btn:hover {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--green-deep);
 }
 
-.district-card-hover:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+/* ══════════════════════════════════════
+   FOOTER
+══════════════════════════════════════ */
+.site-footer {
+    background: var(--green-deep);
+    padding: 5rem 6vw 3rem;
+    color: rgba(255,255,255,0.5);
+}
+.footer-inner {
+    text-align: center;
+}
+.footer-brand {
+    margin-bottom: 2.5rem;
+}
+.footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem;
+    font-weight: 300;
+    letter-spacing: 0.45em;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 0.4rem;
+}
+.footer-tagline {
+    font-size: 0.68rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(201,169,110,0.45);
+    font-weight: 400;
+}
+.footer-divider {
+    width: 50px;
+    height: 1px;
+    background: rgba(201,169,110,0.25);
+    margin: 0 auto 2rem;
+}
+.footer-author {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 0.6rem;
+    font-weight: 300;
+}
+.footer-copy {
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.25);
+    font-weight: 400;
+}
+
+/* ══════════════════════════════════════
+   ANIMATIONS
+══════════════════════════════════════ */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.4; }
+}
+@keyframes scrollPulse {
+    0%, 100% { opacity: 0.35; }
+    50%       { opacity: 0.8; }
+}
+
+
+
+
+
+/* ═══════════════════════════════════════════════
+   SOFIA — DISTRICT DETAIL · Premium CSS
+   Préfixe : .dd-  → aucun conflit avec Home.css
+   ═══════════════════════════════════════════════ */
+
+/* Les tokens :root sont partagés depuis Home.css
+   (gold, green-deep, white, etc.) — pas de redéfinition. */
+
+/* ══════════════════════════════════════
+   LOADING
+══════════════════════════════════════ */
+.dd-loading {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--off-white, #F5F1E8);
+    flex-direction: column;
+    gap: 1.2rem;
+}
+.dd-loading-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+.dd-loading-ring {
+    width: 44px;
+    height: 44px;
+    border: 1.5px solid rgba(201,169,110,0.2);
+    border-top-color: var(--gold, #C9A96E);
+    border-radius: 50%;
+    animation: dd-spin 0.9s linear infinite;
+}
+.dd-loading-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(13,43,31,0.45);
+    font-weight: 400;
+}
+
+/* ══════════════════════════════════════
+   ROOT
+══════════════════════════════════════ */
+.dd-root {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--off-white, #F5F1E8);
+    color: var(--ink, #1A1610);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ══════════════════════════════════════
+   HERO HEADER
+══════════════════════════════════════ */
+.dd-header {
+    position: relative;
+    height: 52vh;
+    min-height: 380px;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    background: var(--green-deep, #0D2B1F);
+}
+
+/* Subtle texture background */
+.dd-header-bg {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 80% 60% at 60% 40%, rgba(46,96,71,0.35) 0%, transparent 70%),
+        var(--green-deep, #0D2B1F);
+}
+
+/* Bottom fade */
+.dd-header-vignette {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(5,15,10,0.75) 0%,
+        transparent 60%
+    );
+    z-index: 1;
+}
+
+.dd-header-inner {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 0 6vw 3.5rem;
+}
+
+.dd-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(201,169,110,0.7);
+    text-decoration: none;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 2rem;
+    transition: color 0.25s;
+}
+.dd-back-link:hover {
+    color: var(--gold, #C9A96E);
+}
+
+/* .dd-header-meta {} */
+
+.dd-header-overline {
+    display: block;
+    font-size: 0.68rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: rgba(201,169,110,0.5);
+    font-weight: 400;
+    margin-bottom: 0.8rem;
+}
+
+.dd-header-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.6rem, 6vw, 5rem);
+    font-weight: 300;
+    line-height: 1.0;
+    color: #fff;
+    margin-bottom: 0.8rem;
+}
+.dd-header-title em {
+    font-style: italic;
+    color: var(--gold-light, #E8CFA0);
+}
+
+.dd-header-sub {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.35);
+    font-weight: 300;
+    text-transform: uppercase;
+}
+
+/* ══════════════════════════════════════
+   MAIN BODY
+══════════════════════════════════════ */
+.dd-main {
+    padding: 3rem 6vw 6rem;
+}
+
+.dd-grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 24px;
+    max-width: 1280px;
+    margin: 0 auto;
+}
+@media (max-width: 900px) {
+    .dd-grid { grid-template-columns: 1fr; }
+}
+
+.dd-col-left  { display: flex; flex-direction: column; gap: 20px; }
+.dd-col-right { display: flex; flex-direction: column; gap: 20px; }
+
+/* ══════════════════════════════════════
+   CARDS (base)
+══════════════════════════════════════ */
+.dd-card {
+    background: var(--white, #FDFBF7);
+    border-radius: 20px;
+    padding: 2rem;
+    border: 0.5px solid rgba(201,169,110,0.18);
+}
+
+/* ══════════════════════════════════════
+   CARD TAG (header badge)
+══════════════════════════════════════ */
+.dd-card-tag {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 0.5px solid rgba(201,169,110,0.2);
+}
+.dd-tag-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: rgba(201,169,110,0.1);
+    color: var(--gold, #C9A96E);
+    flex-shrink: 0;
+}
+.dd-tag-icon--light {
+    background: rgba(255,255,255,0.12);
+    color: var(--gold-light, #E8CFA0);
+}
+.dd-tag-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold, #C9A96E);
+    font-weight: 500;
+}
+.dd-tag-label--light {
+    color: rgba(201,169,110,0.7);
+}
+.dd-badge {
+    margin-left: auto;
+    background: rgba(201,169,110,0.1);
+    color: var(--gold, #C9A96E);
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+}
+
+/* ══════════════════════════════════════
+   IA CONTENT CARD
+══════════════════════════════════════ */
+.dd-ia-text {
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.9;
+    color: rgba(26,22,16,0.75);
+}
+.dd-ia-text::first-letter {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.2rem;
+    font-weight: 400;
+    color: var(--gold, #C9A96E);
+    float: left;
+    line-height: 0.8;
+    margin-right: 8px;
+    margin-top: 4px;
+}
+
+/* ══════════════════════════════════════
+   COMMUNES GRID
+══════════════════════════════════════ */
+.dd-communes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 10px;
+}
+.dd-commune-item {
+    background: var(--off-white, #F5F1E8);
+    border-radius: 12px;
+    padding: 0.9rem 1rem;
+    border-left: 2px solid var(--gold, #C9A96E);
+    transition: background 0.2s;
+}
+.dd-commune-item:hover {
+    background: rgba(201,169,110,0.08);
+}
+.dd-commune-name {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--green-deep, #0D2B1F);
+    margin-bottom: 3px;
+}
+.dd-commune-pop {
+    font-size: 0.7rem;
+    color: rgba(26,22,16,0.45);
+    font-weight: 400;
+}
+
+/* ══════════════════════════════════════
+   MÉTÉO CARD
+══════════════════════════════════════ */
+.dd-card-meteo {
+    border-top: 3px solid var(--gold, #C9A96E);
+}
+.dd-meteo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.8rem;
+}
+.dd-meteo-overline {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(26,22,16,0.4);
+    font-weight: 400;
+    margin-bottom: 4px;
+}
+.dd-meteo-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--green-deep, #0D2B1F);
+}
+.dd-meteo-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    background: rgba(201,169,110,0.08);
+    border: 0.5px solid rgba(201,169,110,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold, #C9A96E);
+}
+.dd-meteo-temp {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 5rem;
+    font-weight: 300;
+    line-height: 1;
+    color: var(--green-deep, #0D2B1F);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.3rem;
+}
+.dd-meteo-unit {
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--gold, #C9A96E);
+    vertical-align: super;
+}
+.dd-meteo-state {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(26,22,16,0.45);
+    margin-bottom: 1.4rem;
+}
+.dd-meteo-divider {
+    height: 0.5px;
+    background: rgba(201,169,110,0.2);
+    margin-bottom: 1.2rem;
+}
+.dd-meteo-desc {
+    font-size: 0.85rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: rgba(26,22,16,0.55);
+    font-style: italic;
+}
+
+/* ══════════════════════════════════════
+   STATS CARD
+══════════════════════════════════════ */
+.dd-card-stats {
+    background: var(--green-deep, #0D2B1F);
+    border-color: rgba(201,169,110,0.12);
+}
+.dd-stats-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+.dd-stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.9rem 0;
+    border-bottom: 0.5px solid rgba(255,255,255,0.07);
+}
+.dd-stat-row:last-child { border-bottom: none; }
+.dd-stat-label {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.4);
+    font-weight: 300;
+}
+.dd-stat-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--gold-light, #E8CFA0);
+}
+
+/* ══════════════════════════════════════
+   ANIMATIONS
+══════════════════════════════════════ */
+@keyframes dd-spin {
+    to { transform: rotate(360deg); }
 }

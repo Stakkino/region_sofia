@@ -1,93 +1,166 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom'; // Importation pour la navigation
+import { Link } from 'react-router-dom';
 import { getRegions } from '../services/api';
 import { MapPin, Wind, ArrowRight } from 'lucide-react';
 
 const Home = () => {
     const [regionData, setRegionData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [currentSlide, setCurrentSlide] = useState(0);
+    
+    const images = [
+        '/assets/images/p1.jpg',
+        '/assets/images/p2.jpg',
+        '/assets/images/p3.jpg'
+    ];
+
     const currentYear = new Date().getFullYear();
 
     useEffect(() => {
-        getRegions()
-            .then(res => {
-                if(res.data.length > 0) setRegionData(res.data[0]);
-                setLoading(false);
-            })
-            .catch(err => {
-                console.error("Erreur Backend:", err);
-                setLoading(false);
-            });
-    }, []);
+        getRegions().then(res => {
+            if(res.data.length > 0) setRegionData(res.data[0]);
+            setLoading(false);
+        }).catch(() => setLoading(false));
+
+        const timer = setInterval(() => {
+            setCurrentSlide((prev) => (prev + 1) % images.length);
+        }, 5000);
+        return () => clearInterval(timer);
+    }, [images.length]);
+
+    const getFeaturedDistricts = (districts) => {
+        if (!districts) return [];
+        const dayOfYear = Math.floor(new Date() / 8.64e7);
+        const index = dayOfYear % districts.length;
+        return [districts[index], districts[(index + 1) % districts.length]];
+    };
+
+    const featuredDistricts = getFeaturedDistricts(regionData?.districts);
 
     if (loading) return (
-        <div className="h-screen flex items-center justify-center bg-sofia-light text-sofia-green font-bold">
-            Chargement des données de la Sofia...
+        <div className="loading-screen">
+            <div className="loading-inner">
+                <div className="loading-logo">S</div>
+                <p className="loading-text">SYSTÈME SOFIA</p>
+            </div>
         </div>
     );
 
     return (
-        <div className="min-h-screen bg-sofia-light">
-            {/* --- HERO SECTION --- */}
-            <section className="relative h-[85vh] flex items-center justify-center overflow-hidden bg-sofia-green text-white">
-                <div className="container mx-auto px-6 z-10">
-                    <div className="max-w-3xl fade-in-up">
-                        <h1 className="text-6xl font-bold mb-4 tracking-tight">
-                            Région <span className="text-sofia-gold">{regionData?.nom || "SOFIA"}</span>
-                        </h1>
-                        <p className="text-xl mb-8 leading-relaxed opacity-90 font-light">
-                            Explorez le cœur du Nord-Ouest Malgache. Une terre d'accueil Tsimihety, 
-                            sublimée par l'intelligence artificielle pour une expérience voyageur inédite.
-                        </p>
-                        
-                        <div className="inline-flex items-center gap-4 glass-card p-4 text-sofia-green font-medium">
-                            <Wind className="text-sofia-gold animate-pulse" />
-                            <span>Météo locale : {regionData?.meteo_actuelle || "Calcul en cours..."}</span>
+        <div className="home-root">
+
+            {/* ── HERO ── */}
+            <section className="hero-section">
+
+                {/* Slideshow */}
+                {images.map((img, idx) => (
+                    <div
+                        key={idx}
+                        className={`hero-slide ${idx === currentSlide ? 'active' : ''}`}
+                        style={{ backgroundImage: `url(${img})` }}
+                    />
+                ))}
+
+                {/* Grain overlay */}
+                <div className="hero-grain" />
+
+                {/* Dark vignette */}
+                <div className="hero-vignette" />
+
+                {/* Decorative carte */}
+                <div className="hero-map-deco">
+                    <img src="/assets/images/carte-sofia.png" alt="" aria-hidden="true" />
+                </div>
+
+                {/* Slide indicators */}
+                <div className="hero-indicators">
+                    {images.map((_, idx) => (
+                        <button
+                            key={idx}
+                            onClick={() => setCurrentSlide(idx)}
+                            className={`indicator-dot ${idx === currentSlide ? 'active' : ''}`}
+                            aria-label={`Slide ${idx + 1}`}
+                        />
+                    ))}
+                </div>
+
+                {/* Hero content */}
+                <div className="hero-content">
+                    <div className="hero-eyebrow">
+                        <span className="eyebrow-line" />
+                        <span className="eyebrow-text">Région Sofia · Madagascar</span>
+                    </div>
+
+                    <h1 className="hero-title">
+                        L'Intelligence
+                        <br />
+                        <em className="hero-title-em">Territoriale</em>
+                    </h1>
+
+                    <p className="hero-subtitle">
+                        Explorez la Sofia à travers l'IA. Une immersion
+                        technologique au service du développement.
+                    </p>
+
+                    {/* Météo card */}
+                    <div className="hero-meteo">
+                        <div className="meteo-icon-wrap">
+                            <Wind size={18} />
+                        </div>
+                        <div>
+                            <p className="meteo-label">Météo Régionale</p>
+                            <span className="meteo-value">{regionData?.meteo_actuelle}</span>
                         </div>
                     </div>
+
+                    {/* Scroll cue */}
+                    <div className="scroll-cue">
+                        <span className="scroll-line" />
+                        <span className="scroll-label">Découvrir</span>
+                    </div>
                 </div>
-                <div className="absolute bottom-0 w-full h-32 bg-linear-to-t from-sofia-light to-transparent"></div>
             </section>
 
-            {/* --- SECTION DISTRICTS --- */}
-            <section className="container mx-auto px-6 py-20">
-                <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-                    <div className="fade-in-up">
-                        <h2 className="text-4xl font-bold text-sofia-green">Nos Districts</h2>
-                        <div className="w-24 h-1.5 bg-sofia-gold mt-3 rounded-full"></div>
-                    </div>
-                    <p className="text-gray-600 max-w-md italic border-l-4 border-sofia-gold pl-4">
-                        La Sofia s'étend sur {regionData?.nb_district || 7} districts majeurs.
+            {/* ── SECTION INTRO ── */}
+            <section className="intro-section">
+                <div className="intro-inner">
+                    <p className="intro-overline">Bienvenue</p>
+                    <h2 className="intro-heading">Une région d'exception,<br />une vision d'avenir.</h2>
+                    <p className="intro-body">
+                        La Sofia est l'une des régions les plus riches de Madagascar — en biodiversité,
+                        en culture, en potentiel. Découvrez ses districts, ses paysages et son âme
+                        à travers une plateforme numérique pensée pour le voyageur exigeant.
                     </p>
                 </div>
+            </section>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    {regionData?.districts?.map((district) => (
-                        <div key={district.id} className="glass-card district-card-hover group overflow-hidden">
-                            <div className="h-56 bg-gray-300 relative overflow-hidden">
-                                <div className="absolute inset-0 bg-sofia-green/10 group-hover:bg-transparent transition-colors duration-500"></div>
-                                <span className="absolute top-4 right-4 bg-sofia-green text-white px-4 py-1 rounded-full text-xs font-black tracking-widest shadow-lg">
-                                    CP {district.code_postal}
-                                </span>
-                            </div>
-                            
-                            <div className="p-8">
-                                <h3 className="text-2xl font-bold mb-3 text-sofia-green">{district.nom}</h3>
-                                <div className="flex items-center text-gray-500 mb-6 text-sm font-medium">
-                                    <MapPin size={16} className="mr-2 text-sofia-gold" />
-                                    {district.distance_vers_antsohihy} km d'Antsohihy
+            {/* ── DISTRICTS ── */}
+            <section className="districts-section">
+                <div className="districts-header">
+                    <span className="section-overline">Districts en vedette</span>
+                    <h2 className="section-heading">Explorez le territoire</h2>
+                </div>
+
+                <div className="districts-grid">
+                    {featuredDistricts.map((district, i) => (
+                        <div key={district.id} className={`district-card ${i === 0 ? 'card-large' : 'card-small'}`}>
+                            <img
+                                src={`/assets/images/districts/${district.nom.toLowerCase()}.jpg`}
+                                className="district-img"
+                                alt={district.nom}
+                            />
+                            <div className="district-overlay" />
+                            <div className="district-content">
+                                <div className="district-pin">
+                                    <MapPin size={14} />
+                                    <span>Sofia, Madagascar</span>
                                 </div>
-                                
-                                <p className="text-gray-600 leading-relaxed mb-8 line-clamp-3">
-                                    {district.description_climat || "Informations IA en cours..."}
-                                </p>
-                                
-                                {/* LE LIEN DE NAVIGATION VERS LE DÉTAIL */}
-                                <Link 
-                                    to={`/district/${district.id}`} 
-                                    className="flex items-center gap-2 text-sofia-green font-black uppercase text-xs tracking-widest group-hover:gap-4 transition-all no-underline"
+                                <h3 className="district-name">{district.nom}</h3>
+                                <Link
+                                    to={`/district/${district.id}`}
+                                    className="district-btn"
                                 >
-                                    Découvrir le district <ArrowRight size={16} />
+                                    Explorer <ArrowRight size={16} />
                                 </Link>
                             </div>
                         </div>
@@ -95,16 +168,19 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* --- FOOTER --- */}
-            <footer className="bg-white border-t border-gray-100 py-16">
-                <div className="container mx-auto px-6 text-center">
-                    <h3 className="text-xl font-bold text-sofia-green">
-                        NJAKANERA Nostos Duk'S Stakkino
-                    </h3>
-                    <p className="text-gray-500 mt-2 font-light">Backend Developer & AI Specialist</p>
-                    <p className="mt-10 text-xs text-gray-300 font-mono">© {currentYear} — DIGITAL SOFIA SYSTEM V1.0</p>
+            {/* ── FOOTER ── */}
+            <footer className="site-footer">
+                <div className="footer-inner">
+                    <div className="footer-brand">
+                        <span className="footer-logo">SOFIA</span>
+                        <p className="footer-tagline">Intelligence & Territoire</p>
+                    </div>
+                    <div className="footer-divider" />
+                    <p className="footer-author">NJAKANERA Nostos Duk'S Stakkino</p>
+                    <p className="footer-copy">© {currentYear} — Digital Sofia System V1.0</p>
                 </div>
             </footer>
+
         </div>
     );
 };
