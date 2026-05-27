@@ -76,7 +76,7 @@ const Home = () => {
             `}</style>
 
             {/* ── HERO SECTION ── */}
-            <section className="hero-section" style={{ position: 'relative', overflow: 'hidden', minHeight: '110vh', display: 'flex', alignItems: 'center', backgroundColor: '#0A110E' }}>
+            <section className="hero-section" style={{ position: 'relative', overflow: 'hidden', minHeight: '115vh', display: 'flex', alignItems: 'center', backgroundColor: '#0A110E' }}>
 
                 {/* Slideshow Slides */}
                 {images.map((img, idx) => (
@@ -131,26 +131,23 @@ const Home = () => {
                         </div>
                     </div>
 
-                    {/* Avanana: Ny Sarintany Roa (Madagascar + Zoom Sofia) */}
-                    <div className="hero-maps-wrapper" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', opacity: 0.85, filter: 'drop-shadow(0 0 30px rgba(0,163,224,0.15))' }}>
-                        {/* Carte Madagascar (Havia) */}
+                    {/* Ny Sarintany Aroa (Madagascar + Zoom Sofia) */}
+                    <div className="hero-maps-wrapper" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.2rem', opacity: 0.85, filter: 'drop-shadow(0 0 30px rgba(0,163,224,0.15))' }}>
+                        {/* Carte Madagascar*/}
                         <div style={{ position: 'relative', transition: 'transform 0.4s ease' }}>
                             <img 
                                 src="/assets/images/carte-sofia.png" 
                                 alt="Carte Madagascar gasy Sofia" 
-                                style={{ maxWidth: '350px', height: 'auto', display: 'block' }} 
+                                style={{ maxWidth: '340px', height: 'auto', display: 'block' }} 
                             />
                         </div>
                         
-                        {/* Flèche na connector kely mampitohy azy roa (Optionnel) */}
-                        <div style={{ color: 'rgba(255,255,255,0.2)', fontSize: '1.5rem' }}>→</div>
-
-                        {/* Carte Zoom Sofia (Avanana) */}
-                        <div style={{ position: 'relative', transition: 'transform 0.4s ease', padding: '10px', background: 'rgba(255,255,255,0.02)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                        {/* Carte Zoom Sofia */}
+                        <div style={{ position: 'relative', transition: 'transform 0.4s ease', padding: '10px' }}>
                             <img 
                                 src="/assets/images/carte-sofia-zoom.png" 
                                 alt="Zoom Région Sofia" 
-                                style={{ maxWidth: '280px', height: 'auto', display: 'block', borderRadius: '8px' }} 
+                                style={{ maxWidth: '290px', height: 'auto', display: 'block' }} 
                             />
                         </div>
                     </div>
