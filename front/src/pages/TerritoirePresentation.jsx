@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { School, Church, Factory, ShoppingBag, Sparkles, MapPin, Search, Layers } from 'lucide-react';
-// Andalana faha-4: Ampiasaina mivantana izao ilay function mba tsy hisy error 'no-unused-vars'
-import { getTerritoirePresentation } from '../services/api'; 
+import { getDistricts } from '../services/api'; 
 
 const TerritoirePresentation = () => {
-  const [communesData, setCommunesData] = useState([]);
+  const [communesList, setCommunesList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null); // Fitantanana fahadisoana raha dila ny serveur
+  const [error, setError] = useState(null);
   
-  // Fitantanana ny sivana (Filtres)
+  // Filtres
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDistrict, setSelectedDistrict] = useState('ALL');
   const [selectedBloc, setSelectedBloc] = useState('ALL');
@@ -17,19 +16,49 @@ const TerritoirePresentation = () => {
   useEffect(() => {
     let isMounted = true;
 
-    // ANTSO TENA IZY ANY AMIN'NY DJANGO BACKEND
-    getTerritoirePresentation()
+    // Alaina mivantana avy amin'ny api.js ny districts rehetra miaraka amin'ny communes ao aminy
+    getDistricts()
       .then((res) => {
-        if (isMounted) {
-          // res.data dia tokony handefa lisitra avy amin'ny serializer-nao
-          setCommunesData(res.data); 
+        if (isMounted && res.data && Array.isArray(res.data)) {
+          const extractedCommunes = [];
+          
+          // Loop amin'ny districts rehetra avy any amin'ny Django
+          res.data.forEach(district => {
+            if (district.communes && Array.isArray(district.communes)) {
+              
+              // Loop amin'ny communes rehetra anatin'ilay district
+              district.communes.forEach(commune => {
+                
+                // Extraction sy fanisana mivantana ny isan'ny blocs avy amin'ny rafitra Django-nao
+                const countEcoles = commune.infrastructures ? commune.infrastructures.filter(i => i.type === 'ECOLE' || i.categorie === 'ECOLE').length : 0;
+                const countEglises = commune.infrastructures ? commune.infrastructures.filter(i => i.type === 'EGLISE' || i.categorie === 'EGLISE').length : 0;
+                const countUsines = commune.infrastructures ? commune.infrastructures.filter(i => i.type === 'USINE' || i.categorie === 'USINE').length : 0;
+                const countCommerces = commune.etablissements ? commune.etablissements.length : 0;
+                const countCulturels = commune.culturels ? commune.culturels.length : 0;
+
+                extractedCommunes.push({
+                  id: commune.id,
+                  nom: commune.nom,
+                  type_commune: commune.type_commune || 'RURALE',
+                  district_nom: district.nom, // Anaran'ny District niaviany
+                  nb_ecoles: countEcoles,
+                  nb_eglises: countEglises,
+                  nb_usines: countUsines,
+                  nb_commerces: countCommerces,
+                  nb_sites_culturels: countCulturels
+                });
+              });
+            }
+          });
+
+          setCommunesList(extractedCommunes);
           setLoading(false);
         }
       })
       .catch((err) => {
-        console.error("Erreur de connexion avec Django:", err);
+        console.error("Erreur API:", err);
         if (isMounted) {
-          setError("Tsy tafa ny fifandraisana amin'ny Backend. Hamarino ny Django.");
+          setError("Erreur de chargement des données depuis le serveur.");
           setLoading(false);
         }
       });
@@ -39,9 +68,8 @@ const TerritoirePresentation = () => {
     };
   }, []);
 
-  // LOJIKA SIVANA (FILTER LOGIC)
-  const filteredCommunes = communesData.filter(c => {
-    // Hamarinina raha misy ny data vao itadiavana mba hisorohana ny crash raha misy banga ny Django
+  // Lojika sivana miankina amin'ny fikarohana sy ny blocs
+  const filteredCommunes = communesList.filter(c => {
     const nomCommune = c.nom ? c.nom.toLowerCase() : '';
     const nomDistrict = c.district_nom ? c.district_nom.toLowerCase() : '';
     
@@ -51,27 +79,21 @@ const TerritoirePresentation = () => {
     const matchesDistrict = selectedDistrict === 'ALL' || c.district_nom === selectedDistrict;
     
     let matchesBloc = true;
-    const nbEcoles = c.nb_ecoles || 0;
-    const nbEglises = c.nb_eglises || 0;
-    const nbUsines = c.nb_usines || 0;
-    const nbCommerces = c.nb_commerces || 0;
-    const nbCulturels = c.nb_sites_culturels || 0;
-
-    if (selectedBloc === 'INFRA') matchesBloc = (nbEcoles + nbEglises + nbUsines) > 0;
-    if (selectedBloc === 'COMMERCE') matchesBloc = nbCommerces > 0;
-    if (selectedBloc === 'CULTURE') matchesBloc = nbCulturels > 0;
+    if (selectedBloc === 'INFRA') matchesBloc = (c.nb_ecoles + c.nb_eglises + c.nb_usines) > 0;
+    if (selectedBloc === 'COMMERCE') matchesBloc = c.nb_commerces > 0;
+    if (selectedBloc === 'CULTURE') matchesBloc = c.nb_sites_culturels > 0;
 
     return matchesSearch && matchesDistrict && matchesBloc;
   });
 
-  // Lisitry ny district rehetra tsy miverina ho an'ny sivana
-  const districtsList = ['ALL', ...new Set(communesData.map(c => c.district_nom).filter(Boolean))];
+  // Lisitry ny district rehetra tsy miverina ho an'ny select menu ambony
+  const districtsList = ['ALL', ...new Set(communesList.map(c => c.district_nom).filter(Boolean))];
 
   if (loading) return (
     <div style={{ backgroundColor: '#0A110E', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
       <div style={{ textAlign: 'center' }}>
         <div style={{ border: '3px solid rgba(255,255,255,0.1)', borderTop: '3px solid #00A3E0', borderRadius: '50%', width: '40px', height: '40px', animation: 'spin 1s linear infinite', margin: '0 auto 1rem auto' }} />
-        <p style={{ color: '#fff', letterSpacing: '0.1em' }}>Centralisation des blocs territoriaux...</p>
+        <p style={{ color: '#fff', letterSpacing: '0.1em' }}>Chargement des données territoriales...</p>
       </div>
     </div>
   );
@@ -92,20 +114,20 @@ const TerritoirePresentation = () => {
     }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         
-        {/* ── TITRE PRINCIPAL ── */}
+        {/* En-tête amin'ny teny Frantsay */}
         <div style={{ marginBottom: '3rem', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '1.5rem' }}>
           <span style={{ color: '#FFB300', textTransform: 'uppercase', letterSpacing: '0.15em', fontSize: '0.85rem', fontWeight: '600' }}>
-            Vue Globale Épurée
+            Présentation Globale
           </span>
           <h1 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '3.5rem', color: '#ffffff', margin: '0.5rem 0 0 0' }}>
-            Analyse & Présentation des Blocs
+            Analyse des Blocs Territoriaux
           </h1>
           <p style={{ color: '#a3b8ae', margin: '0.5rem 0 0 0', fontSize: '1.05rem' }}>
-            Suivi en temps réel des infrastructures, commerces et richesses culturelles de la Région Sofia.
+            Synthèse des infrastructures, commerces et sites culturels par commune.
           </p>
         </div>
 
-        {/* ── BARRE DE FILTRES ── */}
+        {/* Barre de filtres amin'ny teny Frantsay */}
         <div style={{ 
           display: 'flex', 
           gap: '1rem', 
@@ -150,13 +172,13 @@ const TerritoirePresentation = () => {
             >
               <option value="ALL" style={{ backgroundColor: '#0A110E' }}>Tous les Blocs</option>
               <option value="INFRA" style={{ backgroundColor: '#0A110E' }}>Infrastructures Actives</option>
-              <option value="COMMERCE" style={{ backgroundColor: '#0A110E' }}>Commerces & Hôtels</option>
+              <option value="COMMERCE" style={{ backgroundColor: '#0A110E' }}>Commerces & Établissements</option>
               <option value="CULTURE" style={{ backgroundColor: '#0A110E' }}>Patrimoines Culturels</option>
             </select>
           </div>
         </div>
 
-        {/* ── GRID DES CARTES ── */}
+        {/* Grid fampisehoana ny karatra isaky ny Commune avy amin'ny Django */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '2rem' }}>
           {filteredCommunes.length > 0 ? (
             filteredCommunes.map(c => (
@@ -188,10 +210,10 @@ const TerritoirePresentation = () => {
                 <div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
                     <span style={{ fontSize: '0.8rem', color: '#00A3E0', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: '600' }}>
-                      {c.district_nom || 'Non spécifié'}
+                      {c.district_nom}
                     </span>
                     <span style={{ fontSize: '0.75rem', color: '#a3b8ae', backgroundColor: 'rgba(255,255,255,0.04)', padding: '0.2rem 0.5rem', borderRadius: '4px' }}>
-                      {c.type_commune || 'RURALE'}
+                      {c.type_commune}
                     </span>
                   </div>
 
@@ -200,32 +222,34 @@ const TerritoirePresentation = () => {
                   </h2>
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.03)', paddingTop: '1.25rem' }}>
+                    
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.9rem' }}>
                       <span style={{ color: '#a3b8ae', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                         <School size={15} style={{ color: '#00A3E0' }} /> Écoles / Églises / Usines
                       </span>
                       <span style={{ color: '#ffffff', fontWeight: '600' }}>
-                        {c.nb_ecoles || 0} / {c.nb_eglises || 0} / {c.nb_usines || 0}
+                        {c.nb_ecoles} / {c.nb_eglises} / {c.nb_usines}
                       </span>
                     </div>
 
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.9rem' }}>
                       <span style={{ color: '#a3b8ae', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <ShoppingBag size={15} style={{ color: '#2E7D32' }} /> Établissements & Restos
+                        <ShoppingBag size={15} style={{ color: '#2E7D32' }} /> Commerces & Hôtels
                       </span>
                       <span style={{ color: '#ffffff', fontWeight: '600' }}>
-                        {c.nb_commerces || 0} dispo.
+                        {c.nb_commerces} dispo.
                       </span>
                     </div>
 
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.9rem' }}>
                       <span style={{ color: '#a3b8ae', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <Sparkles size={15} style={{ color: '#FFB300' }} /> Sites Culturels & Doany
+                        <Sparkles size={15} style={{ color: '#FFB300' }} /> Patrimoines Culturels
                       </span>
-                      <span style={{ color: (c.nb_sites_culturels || 0) > 0 ? '#FFB300' : '#a3b8ae', fontWeight: '600' }}>
-                        {(c.nb_sites_culturels || 0) > 0 ? `${c.nb_sites_culturels} répertorié(s)` : 'Aucun'}
+                      <span style={{ color: c.nb_sites_culturels > 0 ? '#FFB300' : '#a3b8ae', fontWeight: '600' }}>
+                        {c.nb_sites_culturels > 0 ? `${c.nb_sites_culturels} répertorié(s)` : 'Aucun'}
                       </span>
                     </div>
+
                   </div>
                 </div>
 
@@ -236,7 +260,7 @@ const TerritoirePresentation = () => {
             ))
           ) : (
             <p style={{ color: '#a3b8ae', gridColumn: '1 / -1', fontSize: '1rem', textAlign: 'center', marginTop: '2rem' }}>
-              Aucune commune ne correspond à vos critères de recherche.
+              Aucune donnée disponible pour cette sélection.
             </p>
           )}
         </div>
