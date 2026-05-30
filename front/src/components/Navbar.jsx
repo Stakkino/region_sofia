@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Compass, Map, Info, Home as HomeIcon } from 'lucide-react';
+import { Menu, X, Layers, Compass, Info, Home as HomeIcon } from 'lucide-react';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -22,8 +22,8 @@ const Navbar = () => {
 
   const navLinks = [
     { name: 'Accueil', path: '/', icon: <HomeIcon size={16} /> },
-    { name: 'Districts', path: '/districts', isAnchor: true, icon: <Compass size={16} /> },
-    { name: 'Cartographie', path: '/cartographie', icon: <Map size={16} /> },
+    { name: 'Districts', path: '#districts-section', isAnchor: true, icon: <Compass size={16} /> },
+    { name: 'Territoire', path: '/territoire', icon: <Layers size={16} /> },
     { name: 'À propos', path: '/a-propos', icon: <Info size={16} /> }
   ];
 

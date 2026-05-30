@@ -2,13 +2,14 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import DistrictDetail from './pages/DistrictDetail';
+import CommuneDetail from './pages/CommuneDetail';
+import TerritoirePresentation from './pages/TerritoirePresentation';
 import About from './pages/About';
 
 // ── NAMPIDIRINA ETY NY NAVBAR SY FOOTER ──
 // Hamarino tsara fa ao amin'ny folder "src/components/" tokoa izy roa ireto
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import DistrictCard from './components/DistrictCard';
 
 function App() {
   return (
@@ -23,8 +24,10 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/district/:id" element={<DistrictDetail />} />
+            <Route path="/commune/:id" element={<CommuneDetail />} />
+            <Route path="/territoire" element={<TerritoirePresentation />} />
             <Route path="/a-propos" element={<About />} />
-            <Route path="/districts" element={<DistrictCard />} />
+            {/* <Route path="/districts" element={<DistrictCard />} /> */}
           </Routes>
         </div>
 

@@ -149,12 +149,39 @@ const DistrictDetail = () => {
                             <div className="dd-communes-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '1.25rem' }}>
                                 {district.communes && district.communes.length > 0 ? (
                                     district.communes.map(c => (
-                                        <div key={c.id} className="dd-commune-item" style={{ padding: '1rem', borderRadius: '12px', backgroundColor: 'rgba(255,255,255,0.01)', border: '1px solid rgba(255,255,255,0.02)', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                                        /* ── KITIHO SY LINKA MANDROSO AMIN'NY COMMUNE DETAIL ── */
+                                        <Link 
+                                            key={c.id} 
+                                            to={`/commune/${c.id}`} 
+                                            className="dd-commune-item" 
+                                            style={{ 
+                                                padding: '1rem', 
+                                                borderRadius: '12px', 
+                                                backgroundColor: 'rgba(255,255,255,0.01)', 
+                                                border: '1px solid rgba(255,255,255,0.02)', 
+                                                display: 'flex', 
+                                                flexDirection: 'column', 
+                                                gap: '0.25rem',
+                                                textDecoration: 'none',
+                                                cursor: 'pointer',
+                                                transition: 'all 0.25s ease'
+                                            }}
+                                            onMouseEnter={(e) => {
+                                                e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.04)';
+                                                e.currentTarget.style.borderColor = 'rgba(0,163,224,0.2)';
+                                                e.currentTarget.style.transform = 'translateY(-2px)';
+                                            }}
+                                            onMouseLeave={(e) => {
+                                                e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.01)';
+                                                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.02)';
+                                                e.currentTarget.style.transform = 'translateY(0)';
+                                            }}
+                                        >
                                             <span className="dd-commune-name" style={{ color: '#ffffff', fontWeight: '500' }}>{c.nom}</span>
                                             <span className="dd-commune-pop" style={{ fontSize: '0.85rem', color: '#a3b8ae' }}>
                                                 {c.population ? c.population.toLocaleString('fr-FR') : '---'} habitants
                                             </span>
-                                        </div>
+                                        </Link>
                                     ))
                                 ) : (
                                     <p style={{ color: '#a3b8ae', fontSize: '0.9rem', gridColumn: '1 / -1', margin: 0 }}>
