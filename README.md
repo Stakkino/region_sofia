@@ -7,7 +7,7 @@ Bienvenue dans le dépôt officiel de la plateforme numérique dédiée à la **
 ## 👥 Organisation du Développement (Crédits)
 
 - **Backend Architecture & Database Design :** Entièrement conçu et développé en autonomie par **Stakkino**. Gestion intégrale de la logique métier, de la modélisation relationnelle et des API.
-- **Frontend & UI :** Interface utilisateur et composants React développés avec l'assistance et la correction de code par une **Intelligence Artificielle (IA)** pour garantir un design fluide, moderne et responsive.
+- **Frontend & UI :** Interface utilisateur et composants React développés avec l'assistance et la correction de code par une **Intelligence Actificielle (IA)** pour garantir un design fluide, moderne et responsive.
 
 ---
 
@@ -45,28 +45,45 @@ Assurez-vous d'avoir installé :
 - Node.js (v18 ou supérieur) & npm
 - Un serveur PostgreSQL actif
 
-### 2. Lancement du Backend (Django)
-Ouvrez votre terminal dans le dossier du backend (`back` ou le dossier contenant `manage.py`) :
+### 2. Procédure de Lancement (Backend & Frontend)
+
+Chaque partie du projet doit être lancée dans un terminal dédié à partir de la racine du projet :
+
 ```bash
-# Activation de l'environnement virtuel (si applicable)
+# ==========================================
+# ÉTAPE A : LANCEMENT DU BACKEND (DJANGO)
+# ==========================================
+
+# 1. Ouvrez un premier terminal et allez dans le dossier backend (ex: cd back)
+cd back
+
+# 2. Activez votre environnement virtuel (si applicable)
 # source env/bin/activate (Linux/Mac) ou env\Scripts\activate (Windows)
 
-# Installer les dépendances Python
+# 3. Installez les dépendances Python
 pip install -r requirements.txt
 
-# Appliquer les migrations sur votre base PostgreSQL
+# 4. Appliquez les migrations sur votre base PostgreSQL
 python manage.py migrate
 
-# Lancer le serveur de développement Django
+# 5. Lancez le serveur de développement Django
 python manage.py runserver
 
+# Le serveur backend sera accessible sur : http://127.0.0.1:8000/
 
-### 3. Lancement du Frontend (React)
-# Entrer d'abord dans le dossier frontend depuis la racine (ex: cd front)
+
+# ==========================================
+# ÉTAPE B : LANCEMENT DU FRONTEND (REACT)
+# ==========================================
+
+# 1. Ouvrez un DEUXIÈME terminal séparé à la racine du projet
+# 2. Déplacez-vous dans le dossier du frontend
 cd front
 
-# Installer les dépendances Node.js (à ne faire que la première fois)
+# 3. Installez les dépendances Node.js (uniquement au premier lancement)
 npm install
 
-# Lancer le projet React avec Vite
+# 4. Lancez le projet React avec Vite
 npm run dev
+
+# L'application sera accessible sur l'URL affichée (ex : http://localhost:5173/)
