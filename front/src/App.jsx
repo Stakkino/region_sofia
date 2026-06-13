@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, BrowserRouter } from 'react-router-dom';
+
 import Home from './pages/Home';
 import DistrictDetail from './pages/DistrictDetail';
 import DistrictsPage from './pages/DistrictsPage';
@@ -8,21 +9,17 @@ import CommunesPage from './pages/CommunesPage';
 import TerritoirePresentation from './pages/TerritoirePresentation';
 import About from './pages/About';
 
-
-// ── NAMPIDIRINA ETY NY NAVBAR SY FOOTER ──
-// Hamarino tsara fa ao amin'ny folder "src/components/" tokoa izy roa ireto
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
+      <ScrollToTop/>
+
       <div className="app-container" style={{ backgroundColor: '#0A110E', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-        
-        {/* 1. Ny Navbar mipoitra ambony foana */}
         <Navbar />
-        
-        {/* 2. Ny votoatiny (pejy) miovaova eto afovoany */}
         <div className="main-content" style={{ flex: 1 }}> 
           <Routes>
             <Route path="/" element={<Home />} />
@@ -34,12 +31,10 @@ function App() {
             <Route path="/a-propos" element={<About />} />
           </Routes>
         </div>
-
-        {/* 3. Ny Footer mipoitra ambany foana */}
         <Footer />
-        
       </div>
-    </Router>
+
+    </BrowserRouter> 
   );
 }
 

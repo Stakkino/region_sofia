@@ -11,7 +11,7 @@ const CommuneDetail = () => {
   useEffect(() => {
     let isMounted = true;
 
-    // CORRECTED: getCommuneDetail no antsoina eto
+    // Connectegny ny getCommuneDetail 
     getCommuneDetail(id)
       .then((res) => {
         if (isMounted && res && res.data) {
@@ -54,13 +54,13 @@ const CommuneDetail = () => {
     }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         
-        {/* ── BOKOTRA RETOUR ── */}
+        {/* ── Bouton mipody ── */}
         <Link to="/territoire" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: '#a3b8ae', textDecoration: 'none', fontSize: '0.95rem', marginBottom: '2rem' }}>
           <ArrowLeft size={16} style={{ color: '#00A3E0' }} />
           <span>Retour à la présentation</span>
         </Link>
 
-        {/* ── HEADER COMMUNE ── */}
+        {/* ── tete commun ── */}
         <div style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '2rem', marginBottom: '3rem' }}>
           <span style={{ color: '#FFB300', textTransform: 'uppercase', letterSpacing: '0.15em', fontSize: '0.85rem', fontWeight: '600' }}>
             Commune {commune?.type_commune || 'Spécifiée'}
@@ -76,13 +76,13 @@ const CommuneDetail = () => {
           </div>
         </div>
 
-        {/* ── GRID LEHIBE MANDRAFITRA NY VOTOATINY ── */}
+        {/* ── grid contenu ── */}
         <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '3rem', alignItems: 'start' }}>
           
-          {/* COLONNE GAUCHE */}
+          {/* colonne gauche */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
             
-            {/* 1. BLOC INFRASTRUCTURES */}
+            {/* 1. bolc indrastructure */}
             <section style={{ backgroundColor: 'rgba(255,255,255,0.02)', borderRadius: '16px', padding: '2rem', border: '1px solid rgba(255,255,255,0.03)' }}>
               <h2 style={{ fontSize: '1.2rem', textTransform: 'uppercase', color: '#ffffff', letterSpacing: '0.05em', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <Landmark size={18} style={{ color: '#00A3E0' }} />
@@ -129,7 +129,7 @@ const CommuneDetail = () => {
               )}
             </section>
 
-            {/* 2. BLOC COMMERCIAL */}
+            {/* 2. bloc commercial */}
             {commune?.etablissements && Array.isArray(commune.etablissements) && commune.etablissements.length > 0 && (
               <section style={{ backgroundColor: 'rgba(255,255,255,0.02)', borderRadius: '16px', padding: '2rem', border: '1px solid rgba(255,255,255,0.03)' }}>
                 <h2 style={{ fontSize: '1.2rem', textTransform: 'uppercase', color: '#ffffff', letterSpacing: '0.05em', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -152,10 +152,12 @@ const CommuneDetail = () => {
 
           </div>
 
-          {/* COLONNE DROITE */}
+
+
+          {/* colonne droite */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
             
-            {/* 3. BLOC IA & CULTURE */}
+            {/* 3. bola ia & culture */}
             {(commune?.sites_culturels || commune?.contenu_ia) && (
               <section style={{ backgroundColor: 'rgba(255,255,255,0.02)', borderRadius: '16px', padding: '2rem', border: '1px solid rgba(255,255,255,0.03)' }}>
                 <h2 style={{ fontSize: '1.1rem', textTransform: 'uppercase', color: '#ffffff', letterSpacing: '0.05em', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -183,7 +185,7 @@ const CommuneDetail = () => {
               </section>
             )}
 
-            {/* 4. BLOC QUARTIER */}
+            {/* 4. bloc quartier */}
             {commune?.quartiers && Array.isArray(commune.quartiers) && (
               <section style={{ backgroundColor: 'rgba(255,255,255,0.02)', borderRadius: '16px', padding: '2rem', border: '1px solid rgba(255,255,255,0.03)' }}>
                 <h2 style={{ fontSize: '1.1rem', textTransform: 'uppercase', color: '#ffffff', letterSpacing: '0.05em', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>

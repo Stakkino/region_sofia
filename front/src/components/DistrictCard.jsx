@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { ArrowUpRight, MapPin, Layers } from 'lucide-react';
 
 const DistrictCard = ({ district }) => {
-  // Sécurité au cas où les données ne sont pas encore chargées
   if (!district) return null;
 
   return (
@@ -31,7 +30,6 @@ const DistrictCard = ({ district }) => {
         e.currentTarget.style.boxShadow = 'none';
       }}
     >
-      {/* ── IMAGE DU DISTRICT ── */}
       <div style={{ width: '100%', height: '220px', overflow: 'hidden', position: 'relative' }}>
         <img 
           src={district.image || 'https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=800&q=80'} 
@@ -61,7 +59,7 @@ const DistrictCard = ({ district }) => {
         </div>
       </div>
 
-      {/* ── CONTENU TEXTE ── */}
+      {/* ── Contenu ── */}
       <div style={{ padding: '1.75rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
         
         {/* Nom du District */}
@@ -78,7 +76,7 @@ const DistrictCard = ({ district }) => {
           </h3>
         </div>
 
-        {/* Résumé IA (Description) */}
+        {/* Résumé IA */}
         <p style={{ 
           fontSize: '0.95rem', 
           lineHeight: '1.6', 
@@ -93,7 +91,7 @@ const DistrictCard = ({ district }) => {
           {district.description || "Analyse IA en cours pour ce territoire de la Région Sofia..."}
         </p>
 
-        {/* ── BOUTON LIEN (VERS DETAILS) ── */}
+        {/* ── lien (boutton) ── */}
         <Link 
           to={`/district/${district.id}`} 
           style={{

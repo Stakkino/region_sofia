@@ -7,7 +7,7 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
 
-  // Mihaino ny scroll mba hanovana ny fisehon'ny Navbar
+  // Mitandregny scroll mb hagnova ny fiboakan Navbar
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 20) {
@@ -34,7 +34,7 @@ const Navbar = () => {
     setIsMobileMenuOpen(false);
   };
 
-  // CSS iombonana ho an'ny lien rehetra mba hitovy laharana tsara (Desktop)
+  // CSS commun pour les lien
   const linkStyle = (linkPath) => ({
     color: isActive(linkPath) ? '#00A3E0' : '#e4ebe7',
     textDecoration: 'none',
@@ -43,7 +43,7 @@ const Navbar = () => {
     letterSpacing: '0.03em',
     opacity: isActive(linkPath) ? 1 : 0.8,
     borderBottom: isActive(linkPath) ? '2px solid #00A3E0' : '2px solid transparent',
-    paddingBottom: '6px', // Nampitoviana mba hifanaraka tsara ny tsipika
+    paddingBottom: '6px', 
     display: 'inline-flex',
     alignItems: 'center',
     transition: 'all 0.3s ease',
@@ -59,7 +59,7 @@ const Navbar = () => {
       width: '100%', 
       zIndex: 1000, 
       transition: 'all 0.4s ease', 
-      // Rehefa eo ambony indrindra dia somary matroka maivana (0.4), rehefa mi-scroll dia lasa matroka kokoa (0.85)
+      // plus haut (0.4), mi-scroll dia lasa matroka kokoa (0.85)
       backgroundColor: isScrolled ? 'rgba(10, 17, 14, 0.85)' : 'rgba(10, 17, 14, 0.4)', 
       backdropFilter: 'blur(12px)', 
       WebkitBackdropFilter: 'blur(12px)', 
@@ -101,7 +101,7 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* ── BURGER BUTTON (MOBILE) ── */}
+        {/* ── BUTTON (MOBILE) ── */}
         <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
                 style={{ background: 'none', border: 'none', color: '#fff', cursor: 'pointer', display: 'none' }} 
                 className="mobile-burger-btn"

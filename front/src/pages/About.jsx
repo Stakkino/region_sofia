@@ -48,7 +48,7 @@ const About = () => {
                 </p>
             </div>
 
-            {/* ── NOTRE VISION & MISSION ── */}
+            {/* ── VISION & MISSION ── */}
             <div className="about-grid-vision" style={{
                 maxWidth: '1200px',
                 margin: '0 auto 6rem auto',
@@ -97,7 +97,7 @@ const About = () => {
                 </div>
             </div>
 
-            {/* ── LES PILLIERS STRATÉGIQUES (VERSION NETTOYÉE) ── */}
+            {/* ── LES PILLIERS STRATÉGIQUES ── */}
             <div className="about-pillars" style={{
                 maxWidth: '1200px',
                 margin: '0 auto',

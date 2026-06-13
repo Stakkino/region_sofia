@@ -22,7 +22,7 @@ const Home = () => {
 
         const timer = setInterval(() => {
             setCurrentSlide((prev) => (prev + 1) % images.length);
-        }, 6000); // Natao 6s mba hanana fotoana hisintonana ny animation zoom
+        }, 6000); // 6s 
         return () => clearInterval(timer);
     }, [images.length]);
 
@@ -105,7 +105,7 @@ const Home = () => {
                 {/* Content sy Carte napetraka anaty Grid milamina */}
                 <div className="hero-container" style={{ position: 'relative', zIndex: 3, padding: '2rem', width: '100%', maxWidth: '1240px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', alignItems: 'center', gap: '3rem' }}>
                     
-                    {/* Havia: Lahatsoratra */}
+                    {/* les texte */}
                     <div className="hero-content">
                         <div className="hero-eyebrow" style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
                             <span className="eyebrow-line" style={{ width: '40px', height: '2px', backgroundColor: 'var(--accent)' }} />
@@ -131,7 +131,7 @@ const Home = () => {
                         </div>
                     </div>
 
-                    {/* Ny Sarintany Aroa (Madagascar + Zoom Sofia) */}
+                    {/* Les photos*/}
                     <div className="hero-maps-wrapper" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.2rem', opacity: 0.85, filter: 'drop-shadow(0 0 30px rgba(0,163,224,0.15))' }}>
                         {/* Carte Madagascar*/}
                         <div style={{ position: 'relative', transition: 'transform 0.4s ease' }}>
@@ -142,7 +142,7 @@ const Home = () => {
                             />
                         </div>
                         
-                        {/* Carte Zoom Sofia */}
+                        {/* Carte Sofia */}
                         <div style={{ position: 'relative', transition: 'transform 0.4s ease', padding: '10px' }}>
                             <img 
                                 src="/assets/images/carte-sofia-zoom.png" 

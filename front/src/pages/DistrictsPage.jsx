@@ -10,11 +10,10 @@ const DistrictsPage = () => {
     getDistricts()
       .then((res) => {
         if (res && res.data) {
-          // Ity no ahafahanao mijery ny tsinain'ny data ao amin'ny Console (F12) raha mbola misy olana
+          // console s'il y a des erreurs
           console.log("== RAFI-DRAKITRA AVY AMIN'NY DJANGO == :", res.data);
 
           const formattedData = res.data.map(d => {
-            // Fiarovana ny isan'ny communes miankina amin'ny field nalefan'ny Django
             let count = 0;
             if (typeof d.communes_count === 'number') {
               count = d.communes_count;
@@ -23,7 +22,6 @@ const DistrictsPage = () => {
             } else if (typeof d.nombre_communes === 'number') {
               count = d.nombre_communes;
             } else if (Array.isArray(d.communes)) {
-              // Raha toa ka lisitra array ny communes no averin'ny Django fa tsy isa
               count = d.communes.length;
             }
 
@@ -66,7 +64,7 @@ const DistrictsPage = () => {
           <p style={{ color: '#a3b8ae', fontSize: '1.1rem' }}>Explorez les différents territoires et leurs communes</p>
         </div>
 
-        {/* Ny Grid mampiseho an'ireo Karatra */}
+        {/* Ny Grid magnaboaka cartes */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',

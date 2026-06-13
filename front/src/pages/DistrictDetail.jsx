@@ -35,14 +35,12 @@ const DistrictDetail = () => {
         </div>
     );
 
-    // Cartographie des icônes par thématique territoriale (sans mention IA)
     const iconMap = {
         histoire: <History size={18} />,
         fady:     <ShieldAlert size={18} />,
         culture:  <History size={18} />
     };
 
-    // Logique d'image épurée (Dossier Public)
     const districtImageName = district.nom ? district.nom.toLowerCase().trim().replace(/\s+/g, '-') : 'default';
     const districtImagePath = `assets/images/districts/${districtImageName}.jpg`;
 
@@ -57,7 +55,7 @@ const DistrictDetail = () => {
             fontFamily: 'system-ui, sans-serif'
         }}>
 
-            {/* ── HERO HEADER WITH DYNAMIC IMAGE ── */}
+            {/* ── hero tete ── */}
             <header className="dd-header" style={{ position: 'relative', overflow: 'hidden', padding: '6rem 2rem 4rem 2rem', backgroundColor: '#0A110E', borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
                 <div 
                     className="dd-header-bg" 
@@ -72,7 +70,6 @@ const DistrictDetail = () => {
                     }} 
                 />
                 
-                {/* Lueur bleue (Glow effect) pour donner de la profondeur */}
                 <div style={{ position: 'absolute', top: '10%', right: '20%', width: '300px', height: '300px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,163,224,0.1) 0%, transparent 70%)', zIndex: 2, filter: 'blur(30px)' }} />
                 
                 <div className="dd-header-vignette" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'linear-gradient(to bottom, transparent, #0A110E)', zIndex: 2 }} />
@@ -93,11 +90,12 @@ const DistrictDetail = () => {
                 </div>
             </header>
 
-            {/* ── BODY ── */}
+            {/* ── corp ── */}
             <main className="dd-main" style={{ padding: '4rem 2rem', maxWidth: '1200px', margin: '0 auto' }}>
                 <div className="dd-grid" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '3rem', alignItems: 'start' }}>
 
-                    {/* ── COLONNE GAUCHE (CONTENUS & COMMUNES) ── */}
+
+                    {/* ── colonne gauche── */}
                     <div className="dd-col-left" style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
 
                         {/* Contenus Textuels Épurés */}
@@ -132,7 +130,7 @@ const DistrictDetail = () => {
                             </article>
                         )}
 
-                        {/* Communes Card */}
+                        {/* Communes Carte */}
                         <div className="dd-card" style={{ 
                             backgroundColor: 'rgba(255,255,255,0.02)', 
                             borderRadius: '16px', 
@@ -149,7 +147,6 @@ const DistrictDetail = () => {
                             <div className="dd-communes-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '1.25rem' }}>
                                 {district.communes && district.communes.length > 0 ? (
                                     district.communes.map(c => (
-                                        /* ── KITIHO SY LINKA MANDROSO AMIN'NY COMMUNE DETAIL ── */
                                         <Link 
                                             key={c.id} 
                                             to={`/commune/${c.id}`} 
@@ -192,10 +189,11 @@ const DistrictDetail = () => {
                         </div>
                     </div>
 
-                    {/* ── COLONNE DROITE (METEO & STATS) ── */}
+
+                    {/* ── colonne droit ── */}
                     <div className="dd-col-right" style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem', position: 'sticky', top: '2rem' }}>
 
-                        {/* Météo Card */}
+                        {/* Météo Carte */}
                         <div className="dd-card dd-card-meteo" style={{ 
                             background: 'linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)', 
                             borderRadius: '16px', 
@@ -229,7 +227,7 @@ const DistrictDetail = () => {
                             </p>
                         </div>
 
-                        {/* Statistiques Card */}
+                        {/* Statistiques Carte */}
                         <div className="dd-card dd-card-stats" style={{ 
                             backgroundColor: 'rgba(255,255,255,0.02)', 
                             borderRadius: '16px', 

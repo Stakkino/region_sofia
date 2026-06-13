@@ -22,7 +22,7 @@ const Footer = () => {
                 marginBottom: '4rem'
             }}>
                 
-                {/* ── COLONNE 1 : BRAND & VISION ── */}
+                {/* ── COLONNE 1 :  Territoire ndrek avenir── */}
                 <div className="footer-col-brand">
                     <span style={{ color: '#00A3E0', fontWeight: 'bold', letterSpacing: '0.15em', fontSize: '1.8rem', display: 'block', marginBottom: '0.5rem' }}>SOFIA</span>
                     <p style={{ color: '#FFB300', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.8rem', fontWeight: '600', margin: '0 0 1.5rem 0' }}>
@@ -33,7 +33,7 @@ const Footer = () => {
                     </p>
                 </div>
 
-                {/* ── COLONNE 2 : PARTENARIATS ── */}
+                {/* ── COLONNE 2 : mpiaramiasa ── */}
                 <div className="footer-col-partners">
                     <h4 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '1.4rem', color: '#ffffff', marginBottom: '1.5rem', fontWeight: 'normal', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                         <Building2 size={18} style={{ color: '#2E7D32' }} /> Partenariats

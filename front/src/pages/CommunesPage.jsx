@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, MapPin, ArrowRight, Filter, Layers } from 'lucide-react';
-import { getDistricts } from '../services/api'; // Maka data avy amin'ny Districts satria ao ny communes
+import { getDistricts } from '../services/api'; 
 
 const CommunesPage = () => {
   const [districtsRaw, setDistrictsRaw] = useState([]);
@@ -16,11 +16,11 @@ const CommunesPage = () => {
         if (res && res.data) {
           setDistrictsRaw(res.data);
           
-          // Maka sy manambatra ny communes rehetra avy any amin'ny districts rehetra
+          // SUM tout les commune dans touts les district
           let extractedCommunes = [];
           res.data.forEach(district => {
             if (Array.isArray(district.communes)) {
-              // Asiana 'district_nom' mivantana ao amin'ny commune mba ho mora fampisehoana
+              // Asiana 'district_nom' direct ao amin'ny commune mba ho mora fampisehoana
               const communesWithDistrictInfo = district.communes.map(c => ({
                 ...c,
                 district_nom: district.nom || district.name,
@@ -39,17 +39,17 @@ const CommunesPage = () => {
       });
   }, []);
 
-  // 1. KAJY AUTOMATIQUE: Firy ny district manana commune efa voasoratra ato?
+  // Calcul : Firy ny district managna commune efa voasoratra ato?
   const activeDistrictsCount = districtsRaw.filter(d => 
     Array.isArray(d.communes) && d.communes.length > 0
   ).length;
 
-  // 2. SIVANA (FILTER): Sivana isaky ny District + Search Term (On the fly)
+  //  Filtre: chq ny District + Recherche
   const filteredCommunes = allCommunes.filter(c => {
-    // Sivana District
+    // District
     const matchesDistrict = selectedDistrictId === 'ALL' || c.district_id === Number(selectedDistrictId);
     
-    // Sivana Fikarohana (Search Bar)
+    // Recherche
     const search = searchTerm.toLowerCase();
     const matchesSearch = c.nom?.toLowerCase().includes(search) || 
                           c.type_commune?.toLowerCase().includes(search) ||
@@ -71,7 +71,7 @@ const CommunesPage = () => {
     <div style={{ backgroundColor: '#0A110E', minHeight: '100vh', padding: '8rem 2rem 4rem 2rem', color: '#fff', fontFamily: 'system-ui, sans-serif' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         
-        {/* HEADER */}
+        {/* lohany */}
         <div style={{ marginBottom: '2.5rem' }}>
           <h1 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '3rem', margin: '0 0 0.5rem 0' }}>
             Les Communes
@@ -79,7 +79,7 @@ const CommunesPage = () => {
           <p style={{ color: '#a3b8ae', margin: 0 }}>Gestion globale et répartition territoriale des municipalités.</p>
         </div>
 
-        {/* 1. KAJY AUTOMATIQUE - COMPTEUR BANNER */}
+        {/* Calcul automatique */}
         <div style={{ 
           display: 'flex', 
           gap: '2rem', 
@@ -101,10 +101,10 @@ const CommunesPage = () => {
           </div>
         </div>
 
-        {/* CONTROLS: FILTER BUTTONS + SEARCH BAR */}
+        {/* controle */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', marginBottom: '2rem' }}>
           
-          {/* SIVANA ISAKY NY DISTRICT (SELECT / BUTTONS) */}
+          {/* filtre chq district (boutton/recherche) */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
             <span style={{ color: '#a3b8ae', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
               <Filter size={16} /> Filtrer par District:
@@ -144,7 +144,7 @@ const CommunesPage = () => {
                       fontSize: '0.85rem',
                       transition: 'all 0.2s'
                     }}
-                    disabled={count === 0} // Tsy azo kitihina raha 0 commune
+                    disabled={count === 0} 
                     title={count === 0 ? "Aucune commune enregistrée" : ""}
                   >
                     {d.nom || d.name} ({count})
@@ -154,7 +154,7 @@ const CommunesPage = () => {
             </div>
           </div>
 
-          {/* SEARCH BAR */}
+          {/* Bar de recherche */}
           <div style={{ position: 'relative', width: '100%', maxWidth: '400px' }}>
             <span style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: '#a3b8ae', display: 'flex' }}>
               <Search size={18} />
@@ -181,7 +181,7 @@ const CommunesPage = () => {
           </div>
         </div>
 
-        {/* TABLEAU */}
+        {/* Tableaux */}
         <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.01)', border: '1px solid rgba(255, 255, 255, 0.03)', borderRadius: '16px', overflow: 'hidden' }}>
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.95rem' }}>

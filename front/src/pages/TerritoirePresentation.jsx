@@ -16,20 +16,16 @@ const TerritoirePresentation = () => {
   useEffect(() => {
     let isMounted = true;
 
-    // Alaina mivantana avy amin'ny api.js ny districts rehetra miaraka amin'ny communes ao aminy
     getDistricts()
       .then((res) => {
         if (isMounted && res.data && Array.isArray(res.data)) {
           const extractedCommunes = [];
           
-          // Loop amin'ny districts rehetra avy any amin'ny Django
           res.data.forEach(district => {
             if (district.communes && Array.isArray(district.communes)) {
               
-              // Loop amin'ny communes rehetra anatin'ilay district
               district.communes.forEach(commune => {
                 
-                // Extraction sy fanisana mivantana ny isan'ny blocs avy amin'ny rafitra Django-nao
                 const countEcoles = commune.infrastructures ? commune.infrastructures.filter(i => i.type === 'ECOLE' || i.categorie === 'ECOLE').length : 0;
                 const countEglises = commune.infrastructures ? commune.infrastructures.filter(i => i.type === 'EGLISE' || i.categorie === 'EGLISE').length : 0;
                 const countUsines = commune.infrastructures ? commune.infrastructures.filter(i => i.type === 'USINE' || i.categorie === 'USINE').length : 0;
@@ -40,7 +36,7 @@ const TerritoirePresentation = () => {
                   id: commune.id,
                   nom: commune.nom,
                   type_commune: commune.type_commune || 'RURALE',
-                  district_nom: district.nom, // Anaran'ny District niaviany
+                  district_nom: district.nom, 
                   nb_ecoles: countEcoles,
                   nb_eglises: countEglises,
                   nb_usines: countUsines,
@@ -68,7 +64,6 @@ const TerritoirePresentation = () => {
     };
   }, []);
 
-  // Lojika sivana miankina amin'ny fikarohana sy ny blocs
   const filteredCommunes = communesList.filter(c => {
     const nomCommune = c.nom ? c.nom.toLowerCase() : '';
     const nomDistrict = c.district_nom ? c.district_nom.toLowerCase() : '';
@@ -86,7 +81,6 @@ const TerritoirePresentation = () => {
     return matchesSearch && matchesDistrict && matchesBloc;
   });
 
-  // Lisitry ny district rehetra tsy miverina ho an'ny select menu ambony
   const districtsList = ['ALL', ...new Set(communesList.map(c => c.district_nom).filter(Boolean))];
 
   if (loading) return (
@@ -114,7 +108,7 @@ const TerritoirePresentation = () => {
     }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         
-        {/* En-tête amin'ny teny Frantsay */}
+        {/* En-tête  */}
         <div style={{ marginBottom: '3rem', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '1.5rem' }}>
           <span style={{ color: '#FFB300', textTransform: 'uppercase', letterSpacing: '0.15em', fontSize: '0.85rem', fontWeight: '600' }}>
             Présentation Globale
@@ -127,7 +121,7 @@ const TerritoirePresentation = () => {
           </p>
         </div>
 
-        {/* Barre de filtres amin'ny teny Frantsay */}
+        {/* Barre de filtres  */}
         <div style={{ 
           display: 'flex', 
           gap: '1rem', 
@@ -178,7 +172,7 @@ const TerritoirePresentation = () => {
           </div>
         </div>
 
-        {/* Grid fampisehoana ny karatra isaky ny Commune avy amin'ny Django */}
+        {/* Grid -> carte chq Commune */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '2rem' }}>
           {filteredCommunes.length > 0 ? (
             filteredCommunes.map(c => (
