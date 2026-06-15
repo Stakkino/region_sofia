@@ -42,7 +42,7 @@ const DistrictDetail = () => {
     };
 
     const districtImageName = district.nom ? district.nom.toLowerCase().trim().replace(/\s+/g, '-') : 'default';
-    const districtImagePath = `assets/images/districts/${districtImageName}.jpg`;
+    const districtImagePath = `assets/districts/${districtImageName}-2.jpg`;
 
     return (
         <div className="dd-root" style={{

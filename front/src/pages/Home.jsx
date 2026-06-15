@@ -180,7 +180,7 @@ const Home = () => {
                 <div className="districts-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '2.5rem' }}>
                     {featuredDistricts.map((district) => {
                         const cleanImageName = district.nom ? district.nom.toLowerCase().trim().replace(/\s+/g, '-') : 'default';
-                        const districtImagePath = `assets/images/districts/${cleanImageName}.jpg`;
+                        const districtImagePath = `assets/districts/${cleanImageName}-1.jpg`;
 
                         return (
                             <div key={district.id} className="district-card" style={{ 
