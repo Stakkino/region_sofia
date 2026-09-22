@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 
 
 #--------------------------
@@ -6,25 +7,41 @@ from django.db import models
 #--------------------------
 
 class Region(models.Model):
-    nom = models.CharField(max_length=30, default="SOFIA")
-    chef_lieu = models.CharField(max_length=30, default="Antsohihy (407)")
-    nb_district = models.PositiveIntegerField(default=1)
+    nom = models.CharField(max_length=30)
+    chef_lieu = models.CharField(max_length=30)
     # L'IA pourra remplir ceci avec les données météo globales
     meteo_actuelle = models.CharField(max_length=100, blank=True)
+
+    @property
+    def nb_district(self):
+        return self.districts.count()
 
     def __str__(self):
         return self.nom
     
+
 class District(models.Model):
     region = models.ForeignKey(Region, on_delete=models.PROTECT, related_name='districts')
     nom = models.CharField(max_length=50)
+    slug = models.SlugField(max_length=60, unique=True, blank=True)
     code_postal = models.CharField(max_length=5, blank=True, null=True)
     superficie = models.FloatField(help_text="Surface en km²", null=True, blank=True)
-    nb_commune = models.PositiveIntegerField(default=1)
-    distance_vers_antsohihy = models.FloatField(help_text="Distance en km")
-    # Champ météo spécifique mis à jour par l'IA toutes les 6h
+    distance_vers_antsohihy = models.FloatField(null=True, blank=True, help_text="Distance en km")
     description_climat = models.TextField(blank=True)
     meteo_info = models.JSONField(default=dict, blank=True)
+
+    class Meta:
+        unique_together = ('region', 'nom')
+        ordering = ['nom']
+
+    @property
+    def nb_commune(self):
+        return self.communes.count()
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.nom)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.nom

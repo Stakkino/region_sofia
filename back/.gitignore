@@ -1,5 +1,6 @@
 
 .env
 envr/
+media/
 __pycache__/
 *.pyc
