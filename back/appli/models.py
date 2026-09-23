@@ -29,6 +29,8 @@ class District(models.Model):
     distance_vers_antsohihy = models.FloatField(null=True, blank=True, help_text="Distance en km")
     description_climat = models.TextField(blank=True)
     meteo_info = models.JSONField(default=dict, blank=True)
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
 
     class Meta:
         unique_together = ('region', 'nom')
