@@ -141,6 +141,8 @@ STORAGES = {
     },
 }
 
+WHITENOISE_MANIFEST_STRICT = False
+
 # Compat pour django-cloudinary-storage, qui lit encore l'ancien attribut
 # (Django lui-même ignore cette ligne et utilise STORAGES ci-dessus)
 STATICFILES_STORAGE = STORAGES["staticfiles"]["BACKEND"]
