@@ -7,9 +7,9 @@ from .views import (
 
 # Le Router génère automatiquement les URLs comme /districts/ ou /districts/1/
 router = DefaultRouter()
-router.register(r'regions', RegionViewSet)
-router.register(r'districts', DistrictViewSet)
-router.register(r'communes', CommuneViewSet)
+router.register(r'regions', RegionViewSet, basename='region')
+router.register(r'districts', DistrictViewSet, basename='district')
+router.register(r'communes', CommuneViewSet, basename='commune')
 router.register(r'sites-culturels', SiteCulturelViewSet)
 router.register(r'etablissements', EtablissementViewSet)
 
