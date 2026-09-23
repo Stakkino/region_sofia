@@ -141,6 +141,10 @@ STORAGES = {
     },
 }
 
+# Compat pour django-cloudinary-storage, qui lit encore l'ancien attribut
+# (Django lui-même ignore cette ligne et utilise STORAGES ci-dessus)
+STATICFILES_STORAGE = STORAGES["staticfiles"]["BACKEND"]
+
 # --- Sécurité en production ---
 if not DEBUG:
     SECURE_SSL_REDIRECT = True
