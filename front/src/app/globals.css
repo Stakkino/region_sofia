@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+:root {
+  --color-terracotta: #C15A3E;
+  --color-vert: #4A6B4D;
+  --color-ocre: #D9A441;
+  --color-fond: #FAF6F0;
+  --color-texte: #2B2420;
+}
+
+body {
+  background: var(--color-fond);
+  color: var(--color-texte);
+}
