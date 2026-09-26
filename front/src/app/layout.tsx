@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Manrope } from "next/font/google";
 import "./globals.css";
+import Header from "@/components/Header";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -24,6 +25,7 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className={`${cormorant.variable} ${manrope.variable} antialiased`}>
+        <Header />
         {children}
       </body>
     </html>
