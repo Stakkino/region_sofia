@@ -2,11 +2,7 @@ import { fetchDistricts } from "@/lib/api";
 import MadagascarLocatorMap from "@/components/MadagascarLocatorMap";
 import SofiaDistrictsMap from "@/components/SofiaDistrictsMap";
 
-type District = {
-  id: number;
-  nom: string;
-  slug: string;
-};
+type District = { id: number; nom: string; slug: string };
 
 export default async function Home() {
   const districts: District[] = await fetchDistricts();
@@ -14,16 +10,13 @@ export default async function Home() {
   return (
     <main className="min-h-screen px-6 py-16 max-w-6xl mx-auto">
       <section className="mb-16 max-w-2xl">
-        <p className="uppercase tracking-widest text-sm text-[var(--color-ocre)] mb-3">
+        <p className="uppercase tracking-widest text-sm text-[var(--color-mada-vert)] mb-3">
           Région Sofia · Madagascar
         </p>
         <h1 className="font-[family-name:var(--font-heading)] text-5xl md:text-6xl mb-4">
-          L&apos;Intelligence{" "}
-          <span className="text-[var(--color-terracotta)] italic">
-            Territoriale
-          </span>
+          L&apos;Intelligence <span className="text-[var(--color-mada-rouge)] italic">Territoriale</span>
         </h1>
-        <p className="text-lg text-[var(--color-texte)]/80">
+        <p className="text-lg text-[var(--color-muted)]">
           Explorez la Sofia à travers une immersion numérique inédite au service
           du développement et de la valorisation du territoire.
         </p>
@@ -34,7 +27,7 @@ export default async function Home() {
           <h2 className="font-[family-name:var(--font-heading)] text-xl mb-3">
             Localisation à Madagascar
           </h2>
-          <div className="h-72 bg-white/40 rounded-lg">
+          <div className="h-72 bg-white rounded-2xl shadow-sm">
             <MadagascarLocatorMap />
           </div>
         </div>
@@ -42,7 +35,7 @@ export default async function Home() {
           <h2 className="font-[family-name:var(--font-heading)] text-xl mb-3">
             Les 7 districts de la Sofia
           </h2>
-          <div className="h-72 bg-white/40 rounded-lg">
+          <div className="h-72 bg-white rounded-2xl shadow-sm">
             <SofiaDistrictsMap />
           </div>
         </div>
@@ -53,19 +46,17 @@ export default async function Home() {
           Explorez le territoire
         </h2>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {districts.map((d) => {
-            return (
-              <a 
-                key={d.id}
-                href={"/districts/" + d.slug}
-                className="border border-[var(--color-vert)]/30 rounded-lg p-5 bg-white/50 hover:border-[var(--color-terracotta)] transition-colors"
-              >
-                <h3 className="font-[family-name:var(--font-heading)] text-2xl text-[var(--color-vert)]">
-                  {d.nom}
-                </h3>
-              </a>
-            );
-          })}
+          {districts.map((d) => (
+            <a
+              key={d.id}
+              href={`/districts/${d.slug}`}
+              className="border border-black/5 rounded-2xl p-5 bg-white shadow-sm hover:shadow-md hover:border-[var(--color-mada-rouge)]/30 transition-all"
+            >
+              <h3 className="font-[family-name:var(--font-heading)] text-2xl text-[var(--color-mada-vert)]">
+                {d.nom}
+              </h3>
+            </a>
+          ))}
         </div>
       </section>
     </main>

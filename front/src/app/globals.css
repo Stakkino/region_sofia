@@ -1,14 +1,40 @@
 @import "tailwindcss";
 
 :root {
-  --color-terracotta: #C15A3E;
-  --color-vert: #4A6B4D;
-  --color-ocre: #D9A441;
-  --color-fond: #FAF6F0;
-  --color-texte: #2B2420;
+  --color-mada-blanc: #FFFFFF;
+  --color-mada-rouge: #E14B3F;
+  --color-mada-vert: #1E7A4C;
+  --color-fond: #FBF9F5;
+  --color-texte: #24211D;
+  --color-muted: #6B655C;
 }
 
 body {
   background: var(--color-fond);
   color: var(--color-texte);
+}
+
+/* Bordure drapeau animée, tourne à l'infini */
+@property --angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.flag-border {
+  position: relative;
+  border-radius: 1.5rem;
+  padding: 2px;
+  background: conic-gradient(
+    from var(--angle),
+    var(--color-mada-blanc),
+    var(--color-mada-rouge),
+    var(--color-mada-vert),
+    var(--color-mada-blanc)
+  );
+  animation: rotate-flag-border 6s linear infinite;
+}
+
+@keyframes rotate-flag-border {
+  to { --angle: 360deg; }
 }
