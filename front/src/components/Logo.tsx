@@ -7,7 +7,7 @@ export default function Logo({ className = "" }: { className?: string }) {
         <rect x="16" y="0" width="24" height="20" fill="var(--color-mada-rouge)" />
         <rect x="16" y="20" width="24" height="20" fill="var(--color-mada-vert)" />
         {/* Cornes de zébu, en noir pour contraster sur les 3 couleurs */}
-        <g transform="translate(0.5, 6) scale(0.5)">
+        <g transform="translate(0.25, 6) scale(0.5)">
           <path d="M32 40 C 26 40, 22 34, 22 26 C 22 18, 16 12, 8 12"
             stroke="#1E1A16" strokeWidth="5" strokeLinecap="round" fill="none" />
           <path d="M32 40 C 38 40, 42 34, 42 26 C 42 18, 48 12, 56 12"

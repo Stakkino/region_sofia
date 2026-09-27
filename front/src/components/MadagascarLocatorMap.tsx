@@ -7,7 +7,9 @@ export default function MadagascarLocatorMap() {
   return (
     <ComposableMap
       projection="geoMercator"
-      projectionConfig={{ center: [47, -19], scale: 2200 }}
+      projectionConfig={{ center: [46.85, -18.78], scale: 980 }}
+      width={640}
+      height={288}
       className="w-full h-full"
     >
       <Geographies geography="/geo/mdg-regions.json">
@@ -19,7 +21,7 @@ export default function MadagascarLocatorMap() {
               <Geography
                 key={geo.rsmKey}
                 geography={geo}
-                fill={isSofia ? "var(--color-terracotta)" : "#E8E2D8"}
+                fill={isSofia ? "var(--color-mada-rouge)" : "#E8E2D8"}
                 stroke="#FAF6F0"
                 strokeWidth={0.5}
                 style={{ outline: "none" }}

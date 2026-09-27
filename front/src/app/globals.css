@@ -7,14 +7,17 @@
   --color-fond: #FBF9F5;
   --color-texte: #24211D;
   --color-muted: #6B655C;
+
+  --font-heading: Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+  --font-body: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
 }
 
 body {
   background: var(--color-fond);
   color: var(--color-texte);
+  font-family: var(--font-body);
 }
 
-/* Bordure drapeau animée, tourne à l'infini */
 @property --angle {
   syntax: '<angle>';
   inherits: false;

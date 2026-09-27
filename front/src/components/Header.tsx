@@ -16,7 +16,7 @@ export default function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="sticky top-4 z-50 px-4">
+    <div className="sticky top-1 z-50 px-2">
       <header className="max-w-6xl mx-auto bg-white/95 backdrop-blur rounded-full shadow-lg shadow-black/5 border border-black/5">
         <div className="px-5 h-16 flex items-center justify-between">
           <Link href="/" onClick={() => setOpen(false)}>

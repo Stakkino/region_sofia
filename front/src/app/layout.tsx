@@ -1,19 +1,7 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Manrope } from "next/font/google";
-import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["400", "600", "700"],
-  variable: "--font-heading",
-});
-
-const manrope = Manrope({
-  subsets: ["latin"],
-  variable: "--font-body",
-});
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "SOFIA — Intelligence Territoriale",
@@ -25,7 +13,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="fr">
-      <body className={`${cormorant.variable} ${manrope.variable} antialiased`}>
+      <body className="antialiased">
         <Header />
         {children}
         <Footer />
