@@ -29,7 +29,7 @@ export default async function Home() {
           <h2 className="font-[family-name:var(--font-heading)] text-xl mb-4">
             Localisation à Madagascar
           </h2>
-          <div className="mx-auto h-[480px] aspect-[140/263]">
+          <div className="mx-auto w-full max-w-[320px] aspect-[140/263]">
             <MadagascarLocatorMap />
           </div>
         </div>
@@ -37,7 +37,7 @@ export default async function Home() {
           <h2 className="font-[family-name:var(--font-heading)] text-xl mb-4">
             Les 7 districts de la Sofia
           </h2>
-          <div className="mx-auto h-[480px] aspect-[220/260]">
+          <div className="mx-auto w-full max-w-[480px] aspect-[220/260]">
             <SofiaDistrictsMap />
           </div>
         </div>
