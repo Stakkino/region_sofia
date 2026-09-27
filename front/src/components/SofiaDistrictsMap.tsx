@@ -13,7 +13,7 @@ const DISTRICTS: { name: string; slug: string; d: string; cx: number; cy: number
 
 export default function SofiaDistrictsMap() {
   return (
-    <svg viewBox="0 0 640 288" className="w-full h-full">
+    <svg viewBox="210 15 220 260" className="w-full h-full">
       {DISTRICTS.map((dist) => (
         <g key={dist.slug} className="group cursor-pointer">
           <Link href={`/districts/${dist.slug}`}>

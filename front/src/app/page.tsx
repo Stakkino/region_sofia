@@ -1,8 +1,10 @@
 import { fetchDistricts } from "@/lib/api";
 import MadagascarLocatorMap from "@/components/MadagascarLocatorMap";
 import SofiaDistrictsMap from "@/components/SofiaDistrictsMap";
+import DistrictCard from "@/components/DistrictCard";
 
-type District = { id: number; nom: string; slug: string };
+type Photo = { id: number; image: string; legende: string };
+type District = { id: number; nom: string; slug: string; photos: Photo[] };
 
 export default async function Home() {
   const districts: District[] = await fetchDistricts();
@@ -23,39 +25,36 @@ export default async function Home() {
       </section>
 
       <section className="grid md:grid-cols-2 gap-8 mb-20">
-        <div>
-          <h2 className="font-[family-name:var(--font-heading)] text-xl mb-3">
+        <div className="text-center">
+          <h2 className="font-[family-name:var(--font-heading)] text-xl mb-4">
             Localisation à Madagascar
           </h2>
-          <div className="h-72 bg-white rounded-2xl shadow-sm">
+          <div className="mx-auto h-[480px] aspect-[140/263]">
             <MadagascarLocatorMap />
           </div>
         </div>
-        <div>
-          <h2 className="font-[family-name:var(--font-heading)] text-xl mb-3">
+        <div className="text-center">
+          <h2 className="font-[family-name:var(--font-heading)] text-xl mb-4">
             Les 7 districts de la Sofia
           </h2>
-          <div className="h-72 bg-white rounded-2xl shadow-sm">
+          <div className="mx-auto h-[480px] aspect-[220/260]">
             <SofiaDistrictsMap />
           </div>
         </div>
       </section>
 
       <section>
-        <h2 className="font-[family-name:var(--font-heading)] text-2xl mb-6">
+        <h2 className="font-[family-name:var(--font-heading)] text-2xl mb-6 text-center">
           Explorez le territoire
         </h2>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {districts.map((d) => (
-            <a
+            <DistrictCard
               key={d.id}
-              href={`/districts/${d.slug}`}
-              className="border border-black/5 rounded-2xl p-5 bg-white shadow-sm hover:shadow-md hover:border-[var(--color-mada-rouge)]/30 transition-all"
-            >
-              <h3 className="font-[family-name:var(--font-heading)] text-2xl text-[var(--color-mada-vert)]">
-                {d.nom}
-              </h3>
-            </a>
+              nom={d.nom}
+              slug={d.slug}
+              photos={d.photos.map((p) => p.image)}
+            />
           ))}
         </div>
       </section>

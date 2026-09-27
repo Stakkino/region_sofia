@@ -25,7 +25,7 @@ const REGIONS: { name: string; d: string; sofia: boolean }[] = [
 
 export default function MadagascarLocatorMap() {
   return (
-    <svg viewBox="0 0 640 288" className="w-full h-full">
+    <svg viewBox="250 15 140 263" className="w-full h-full">
       {REGIONS.map((r) => (
         <path
           key={r.name}
