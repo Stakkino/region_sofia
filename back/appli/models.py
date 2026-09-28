@@ -24,13 +24,15 @@ class District(models.Model):
     region = models.ForeignKey(Region, on_delete=models.PROTECT, related_name='districts')
     nom = models.CharField(max_length=50)
     slug = models.SlugField(max_length=60, unique=True, blank=True)
+    chef_lieu = models.CharField(max_length=50, blank=True)
     code_postal = models.CharField(max_length=5, blank=True, null=True)
+    population = models.PositiveIntegerField(null=True, blank=True, help_text="Projection 2020, INSTAT")
     superficie = models.FloatField(help_text="Surface en km²", null=True, blank=True)
-    distance_vers_antsohihy = models.FloatField(null=True, blank=True, help_text="Distance en km")
-    description_climat = models.TextField(blank=True)
-    meteo_info = models.JSONField(default=dict, blank=True)
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
+    distance_vers_antsohihy = models.FloatField(null=True, blank=True, help_text="Distance à vol d'oiseau, en km")
+    description_climat = models.TextField(blank=True)
+    meteo_info = models.JSONField(default=dict, blank=True)
 
     class Meta:
         unique_together = ('region', 'nom')
