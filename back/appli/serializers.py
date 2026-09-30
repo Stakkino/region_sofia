@@ -108,9 +108,9 @@ class DistrictSerializer(serializers.ModelSerializer):
     class Meta:
         model = District
         fields = [
-            'id', 'nom', 'slug', 'code_postal', 'superficie', 'nb_commune',
-            'distance_vers_antsohihy', 'description_climat',
-            'meteo_info', 'communes', 'contenus_ia', 'statistiques', 'photos'
+            'id', 'nom', 'slug', 'chef_lieu', 'code_postal', 'population', 'superficie',
+            'latitude', 'longitude', 'distance_vers_antsohihy', 'description_climat',
+            'meteo_info', 'nb_commune', 'communes', 'contenus_ia', 'statistiques', 'photos'
         ]
 
 class RegionSerializer(serializers.ModelSerializer):

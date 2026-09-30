@@ -25,6 +25,7 @@ class RegionViewSet(viewsets.ReadOnlyModelViewSet):
 
 class DistrictViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = DistrictSerializer
+    lookup_field = 'slug' 
 
     def get_queryset(self):
         return District.objects.select_related('region').prefetch_related(
