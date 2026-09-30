@@ -10,7 +10,7 @@ export default function Footer() {
         <footer className="bg-[#161310] text-white/90 rounded-[1.4rem] overflow-hidden">
           <div className="px-8 py-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
             <div>
-              <h3 className="font-[family-name:var(--font-heading)] text-2xl mb-2 text-white">
+              <h3 className="font-(family-name:--font-heading)] text-2xl mb-2 text-white">
                 SOFIA
               </h3>
               <p className="text-sm text-white/60">
@@ -26,7 +26,7 @@ export default function Footer() {
               </p>
               <Link
                 href="/a-propos#proposer"
-                className="inline-block text-sm font-semibold px-4 py-2 rounded-full bg-[var(--color-mada-vert)] text-white hover:bg-[var(--color-mada-rouge)] transition-colors"
+                className="inline-block text-sm font-semibold px-4 py-2 rounded-full bg-(--color-mada-vert)] text-white hover:bg-(--color-mada-rouge)] transition-colors"
               >
                 Proposer un établissement
               </Link>
@@ -45,13 +45,13 @@ export default function Footer() {
               <h4 className="font-semibold mb-3 text-white">Réseaux Sociaux</h4>
               <p className="text-sm text-white/60 mb-3">NJAKANERA Stakkino</p>
               <div className="flex gap-3">
-                <span className="p-2 rounded-full bg-white/10 hover:bg-[var(--color-mada-rouge)] transition-colors cursor-pointer">
+                <span className="p-2 rounded-full bg-white/10 hover:bg-(--color-mada-rouge)] transition-colors cursor-pointer">
                   <FacebookIcon className="w-5 h-5" />
                 </span>
-                <span className="p-2 rounded-full bg-white/10 hover:bg-[var(--color-mada-rouge)] transition-colors cursor-pointer">
+                <span className="p-2 rounded-full bg-white/10 hover:bg-(--color-mada-rouge)] transition-colors cursor-pointer">
                   <MessengerIcon className="w-5 h-5" />
                 </span>
-                <span className="p-2 rounded-full bg-white/10 hover:bg-[var(--color-mada-rouge)] transition-colors cursor-pointer">
+                <span className="p-2 rounded-full bg-white/10 hover:bg-(--color-mada-rouge)] transition-colors cursor-pointer">
                   <InstagramIcon className="w-5 h-5" />
                 </span>
               </div>

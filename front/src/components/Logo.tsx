@@ -16,7 +16,7 @@ export default function Logo({ className = "" }: { className?: string }) {
             stroke="#1E1A16" strokeWidth="5" strokeLinejoin="round" fill="none" />
         </g>
       </svg>
-      <span className="font-[family-name:var(--font-heading)] text-2xl font-semibold tracking-wide">
+      <span className="font-(family-name:--font-heading)] text-2xl font-semibold tracking-wide">
         SOFIA
       </span>
     </div>

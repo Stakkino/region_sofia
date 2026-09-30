@@ -22,7 +22,7 @@ export default function SofiaDistrictsMap() {
               fill="var(--color-mada-vert)"
               stroke="var(--color-fond)"
               strokeWidth={1}
-              className="opacity-85 group-hover:opacity-100 group-hover:fill-[var(--color-mada-rouge)] transition-opacity"
+              className="opacity-85 group-hover:opacity-100 group-hover:fill-(--color-mada-rouge)] transition-opacity"
             />
             <text
               x={dist.cx}
