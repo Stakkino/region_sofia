@@ -17,7 +17,7 @@ export default function DistrictCard({
   return (
     <Link
       href={`/districts/${slug}`}
-      className="group relative block h-44 rounded-2xl overflow-hidden bg-(--color-mada-vert)]"
+      className="group relative block h-44 rounded-2xl overflow-hidden bg-(--color-mada-vert)"
     >
       {photos.map((url, i) => (
         // eslint-disable-next-line @next/next/no-img-element
@@ -37,7 +37,7 @@ export default function DistrictCard({
         />
       ))}
       <div className="absolute inset-0 bg-black/45 group-hover:bg-black/30 transition-colors" />
-      <h3 className="absolute bottom-4 left-4 font-(family-name:--font-heading)] text-2xl text-white">
+      <h3 className="absolute bottom-4 left-4 font-(family-name:--font-heading) text-2xl text-white">
         {nom}
       </h3>
     </Link>

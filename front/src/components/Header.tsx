@@ -28,7 +28,7 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="px-4 py-2 rounded-full text-sm font-medium hover:bg-(--color-mada-vert)]/10 hover:text-(--color-mada-vert)] transition-colors"
+                className="px-4 py-2 rounded-full text-sm font-medium hover:bg-(--color-mada-vert)/10 hover:text-(--color-mada-vert) transition-colors"
               >
                 {link.label}
               </Link>
@@ -37,7 +37,7 @@ export default function Header() {
 
           <Link
             href="/a-propos#proposer"
-            className="hidden md:inline-block text-sm font-semibold px-5 py-2.5 rounded-full bg-(--color-mada-rouge)] text-white hover:bg-(--color-mada-vert)] transition-colors"
+            className="hidden md:inline-block text-sm font-semibold px-5 py-2.5 rounded-full bg-(--color-mada-rouge) text-white hover:bg-(--color-mada-vert) transition-colors"
           >
             Proposer un lieu
           </Link>
@@ -62,7 +62,7 @@ export default function Header() {
             <Link
               href="/a-propos#proposer"
               onClick={() => setOpen(false)}
-              className="mt-3 text-center text-sm font-semibold px-4 py-2.5 rounded-full bg-(--color-mada-rouge)] text-white"
+              className="mt-3 text-center text-sm font-semibold px-4 py-2.5 rounded-full bg-(--color-mada-rouge) text-white"
             >
               Proposer un lieu
             </Link>
