@@ -13,6 +13,8 @@ type DistrictDetail = {
   code_postal: string;
   population: number;
   superficie: number;
+  latitude: number | null;
+  longitude: number | null;
   distance_vers_antsohihy: number;
   description_climat: string;
   nb_commune: number;
@@ -35,66 +37,92 @@ export default async function DistrictPage({
     notFound();
   }
 
+  const cover = district.photos[0]?.image;
+  const mapsUrl =
+    district.latitude && district.longitude
+      ? `https://www.google.com/maps/search/?api=1&query=${district.latitude},${district.longitude}`
+      : null;
+
   return (
     <main className="min-h-screen">
-      {/* Bandeau titre coloré */}
-      <div className="bg-(--color-mada-vert) text-white px-6 py-16">
-        <div className="max-w-5xl mx-auto">
+      {/* Hero avec photo de couverture */}
+      <section
+        className="relative h-72 sm:h-96 flex items-end bg-(--color-mada-vert)"
+        style={
+          cover
+            ? { backgroundImage: `url(${cover})`, backgroundSize: "cover", backgroundPosition: "center" }
+            : undefined
+        }
+      >
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="relative max-w-5xl mx-auto px-6 pb-10 w-full">
           <Link href="/districts" className="text-sm text-white/80 hover:text-white">
             ← Tous les districts
           </Link>
-          <p className="uppercase tracking-widest text-sm text-white/70 mt-4 mb-2">
+          <p className="uppercase tracking-widest text-sm text-white/80 mt-4 mb-1">
             District · Région Sofia
           </p>
-          <h1 className="font-(family-name:--font-heading) text-5xl mb-2">
+          <h1 className="font-(family-name:--font-heading) text-5xl text-white">
             {district.nom}
           </h1>
-          {district.chef_lieu && (
-            <p className="text-white/80">Chef-lieu : {district.chef_lieu}</p>
-          )}
         </div>
-      </div>
+      </section>
 
       <div className="max-w-5xl mx-auto px-6 py-12">
-        {/* Statistiques */}
-        <section className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12 -mt-20">
-          <StatCard label="Population" value={district.population?.toLocaleString("fr-FR")} color="rouge" />
-          <StatCard label="Superficie" value={district.superficie ? `${district.superficie.toLocaleString("fr-FR")} km²` : undefined} color="vert" />
-          <StatCard label="Code postal" value={district.code_postal} color="rouge" />
-          <StatCard label="Communes" value={String(district.nb_commune)} color="vert" />
+        {/* Stats + Localisation */}
+        <section className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-16">
+          <StatCard label="Population" value={district.population?.toLocaleString("fr-FR")} />
+          <StatCard label="Superficie" value={district.superficie ? `${district.superficie.toLocaleString("fr-FR")} km²` : undefined} />
+          <StatCard label="Code postal" value={district.code_postal} />
+          <StatCard label="Communes" value={String(district.nb_commune)} />
+          <div className="bg-white rounded-2xl p-5 shadow-sm text-center flex flex-col justify-center">
+            {mapsUrl ? (
+              <a
+                href={mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm font-semibold text-(--color-mada-vert) hover:text-(--color-mada-rouge) transition-colors"
+              >
+                📍 Voir sur Google Maps
+              </a>
+            ) : (
+              <span className="text-sm text-(--color-muted)">Localisation à venir</span>
+            )}
+            {district.latitude && district.longitude && (
+              <p className="text-xs text-(--color-muted) mt-2">
+                {district.latitude.toFixed(4)}, {district.longitude.toFixed(4)}
+              </p>
+            )}
+          </div>
         </section>
 
         {district.description_climat && (
-          <section className="mb-12 bg-(--color-mada-rouge)/8 border-l-4 border-(--color-mada-rouge) rounded-r-2xl p-6">
-            <h2 className="font-(family-name:--font-heading) text-xl mb-2">☀️ Météo locale</h2>
-            <p className="text-(--color-texte)">{district.description_climat}</p>
+          <section className="mb-16 bg-white rounded-2xl p-6 shadow-sm">
+            <h2 className="font-(family-name:--font-heading) text-xl mb-2">Météo locale</h2>
+            <p className="text-(--color-muted)">{district.description_climat}</p>
           </section>
         )}
 
         {district.contenus_ia.length > 0 && (
-          <section className="mb-12 space-y-6">
-            <h2 className="font-(family-name:--font-heading) text-2xl border-b-2 border-(--color-mada-vert) pb-2 inline-block">
-              À propos du district
-            </h2>
+          <section className="mb-16 space-y-6">
+            <h2 className="font-(family-name:--font-heading) text-2xl">À propos du district</h2>
             {district.contenus_ia.map((c, i) => (
-              <div key={i} className="bg-(--color-mada-vert)/6 rounded-2xl p-5">
-                <h3 className="font-semibold capitalize mb-1 text-(--color-mada-vert)">
-                  {c.type_contenu.replace("_", " ")}
-                </h3>
-                <p className="text-(--color-texte)">{c.texte}</p>
+              <div key={i}>
+                <h3 className="font-semibold capitalize mb-1">{c.type_contenu.replace("_", " ")}</h3>
+                <p className="text-(--color-muted)">{c.texte}</p>
               </div>
             ))}
           </section>
         )}
 
-        <section className="mb-12">
-          <h2 className="font-(family-name:--font-heading) text-2xl border-b-2 border-(--color-mada-vert) pb-2 mb-6 inline-block">
+        <section className="mb-16">
+          <h2 className="font-(family-name:--font-heading) text-2xl mb-6">
             Communes du district
           </h2>
           {district.communes.length > 0 ? (
             <div className="grid sm:grid-cols-2 gap-4">
               {district.communes.map((c) => (
-                <div key={c.id} className="bg-white border border-black/10 rounded-2xl p-5 shadow-sm">
+                <div key={c.id} className="bg-white rounded-2xl p-5 shadow-sm">
                   <h3 className="font-semibold">{c.nom}</h3>
                   <p className="text-sm text-(--color-muted)">
                     {c.type_commune === "URBAINE" ? "Urbaine" : "Rurale"} · {c.population.toLocaleString("fr-FR")} hab.
@@ -103,17 +131,15 @@ export default async function DistrictPage({
               ))}
             </div>
           ) : (
-            <p className="text-(--color-muted) text-sm bg-black/5 rounded-2xl p-4">
+            <p className="text-(--color-muted) text-sm">
               Données des communes en cours de centralisation.
             </p>
           )}
         </section>
 
-        {district.photos.length > 0 && (
+        {district.photos.length > 1 && (
           <section>
-            <h2 className="font-(family-name:--font-heading) text-2xl border-b-2 border-(--color-mada-vert) pb-2 mb-6 inline-block">
-              Galerie
-            </h2>
+            <h2 className="font-(family-name:--font-heading) text-2xl mb-6">Galerie</h2>
             <div className="grid sm:grid-cols-3 gap-4">
               {district.photos.map((p) => (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -127,14 +153,10 @@ export default async function DistrictPage({
   );
 }
 
-function StatCard({ label, value, color }: { label: string; value?: string; color: "rouge" | "vert" }) {
-  const borderColor = color === "rouge" ? "var(--color-mada-rouge)" : "var(--color-mada-vert)";
+function StatCard({ label, value }: { label: string; value?: string }) {
   return (
-    <div
-      className="bg-white rounded-2xl p-5 shadow-md text-center border-t-4"
-      style={{ borderTopColor: borderColor }}
-    >
-      <p className="text-2xl font-(family-name:--font-heading)" style={{ color: borderColor }}>
+    <div className="bg-white rounded-2xl p-5 shadow-sm text-center">
+      <p className="text-2xl font-(family-name:--font-heading) text-(--color-mada-vert)">
         {value || "—"}
       </p>
       <p className="text-xs uppercase tracking-wide text-(--color-muted) mt-1">{label}</p>
