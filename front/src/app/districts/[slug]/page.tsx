@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { fetchDistrict } from "@/lib/api";
+import { MapPin } from "lucide-react";
 
 type Commune = { id: number; nom: string; type_commune: string; population: number };
 type ContenuIA = { type_contenu: string; texte: string };
@@ -47,7 +48,7 @@ export default async function DistrictPage({
     <main className="min-h-screen">
       {/* Hero avec photo de couverture */}
       <section
-        className="relative h-72 sm:h-96 flex items-end bg-(--color-mada-vert)"
+        className="relative mt-4 h-72 sm:h-96 flex items-end bg-(--color-mada-vert)"
         style={
           cover
             ? { backgroundImage: `url(${cover})`, backgroundSize: "cover", backgroundPosition: "center" }
@@ -60,7 +61,7 @@ export default async function DistrictPage({
             ← Tous les districts
           </Link>
           <p className="uppercase tracking-widest text-sm text-white/80 mt-4 mb-1">
-            District · Région Sofia
+            Région Sofia · District
           </p>
           <h1 className="font-(family-name:--font-heading) text-5xl text-white">
             {district.nom}
@@ -83,7 +84,7 @@ export default async function DistrictPage({
                 rel="noopener noreferrer"
                 className="text-sm font-semibold text-(--color-mada-vert) hover:text-(--color-mada-rouge) transition-colors"
               >
-                📍 Voir sur Google Maps
+                <MapPin size={16} /> Voir sur G-Maps
               </a>
             ) : (
               <span className="text-sm text-(--color-muted)">Localisation à venir</span>
