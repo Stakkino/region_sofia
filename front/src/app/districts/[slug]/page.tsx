@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { fetchDistrict } from "@/lib/api";
 import { MapPin } from "lucide-react";
+import { fetchDistrict } from "@/lib/api";
 
 type Commune = { id: number; nom: string; type_commune: string; population: number };
 type ContenuIA = { type_contenu: string; texte: string };
@@ -44,11 +44,13 @@ export default async function DistrictPage({
       ? `https://www.google.com/maps/search/?api=1&query=${district.latitude},${district.longitude}`
       : null;
 
+  const hasEnrichedContent =
+    !!district.description_climat || district.contenus_ia.length > 0 || district.photos.length > 1;
+
   return (
     <main className="min-h-screen">
-      {/* Hero avec photo de couverture */}
       <section
-        className="relative mt-4 h-72 sm:h-96 flex items-end bg-(--color-mada-vert)"
+        className="relative h-72 sm:h-96 flex items-end bg-(--color-mada-vert)"
         style={
           cover
             ? { backgroundImage: `url(${cover})`, backgroundSize: "cover", backgroundPosition: "center" }
@@ -70,32 +72,40 @@ export default async function DistrictPage({
       </section>
 
       <div className="max-w-5xl mx-auto px-6 py-12">
-        {/* Stats + Localisation */}
-        <section className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-16">
+        <section className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-10">
           <StatCard label="Population" value={district.population?.toLocaleString("fr-FR")} />
           <StatCard label="Superficie" value={district.superficie ? `${district.superficie.toLocaleString("fr-FR")} km²` : undefined} />
           <StatCard label="Code postal" value={district.code_postal} />
           <StatCard label="Communes" value={String(district.nb_commune)} />
-          <div className="bg-white rounded-2xl p-5 shadow-sm text-center flex flex-col justify-center">
-            {mapsUrl ? (
-              <a
-                href={mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm font-semibold text-(--color-mada-vert) hover:text-(--color-mada-rouge) transition-colors"
-              >
-                <MapPin size={16} /> Voir sur G-Maps
-              </a>
-            ) : (
-              <span className="text-sm text-(--color-muted)">Localisation à venir</span>
-            )}
+
+          <a
+            href={mapsUrl ?? undefined}
+            target={mapsUrl ? "_blank" : undefined}
+            rel={mapsUrl ? "noopener noreferrer" : undefined}
+            className={`bg-white rounded-2xl p-5 shadow-sm text-center flex flex-col items-center justify-center gap-1 ${
+              mapsUrl ? "hover:shadow-md transition-shadow cursor-pointer" : "cursor-default"
+            }`}
+          >
+            <MapPin size={22} className="text-(--color-mada-vert)" />
+            <p className="text-xs uppercase tracking-wide text-(--color-muted) mt-1">
+              {mapsUrl ? "Voir sur Maps" : "Localisation —"}
+            </p>
             {district.latitude && district.longitude && (
-              <p className="text-xs text-(--color-muted) mt-2">
+              <p className="text-[10px] text-(--color-muted)">
                 {district.latitude.toFixed(4)}, {district.longitude.toFixed(4)}
               </p>
             )}
-          </div>
+          </a>
         </section>
+
+        {!hasEnrichedContent && (
+          <div className="mb-16 border border-dashed border-(--color-mada-vert)/30 rounded-2xl p-8 text-center">
+            <p className="text-(--color-muted)">
+              Les données culturelles, climatiques et photographiques de ce district
+              sont en cours de centralisation. Revenez bientôt !
+            </p>
+          </div>
+        )}
 
         {district.description_climat && (
           <section className="mb-16 bg-white rounded-2xl p-6 shadow-sm">
