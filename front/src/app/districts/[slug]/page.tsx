@@ -53,7 +53,7 @@ export default async function DistrictPage({
         className="relative h-72 sm:h-96 flex items-end bg-(--color-mada-vert)"
         style={
           cover
-            ? { backgroundImage: `url(${cover})`, backgroundSize: "cover", backgroundPosition: "center" }
+            ? { backgroundImage: `url(${cover})`, backgroundSize: "cover", backgroundPosition: "center " }
             : undefined
         }
       >

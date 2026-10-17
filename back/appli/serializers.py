@@ -82,11 +82,11 @@ class SiteCulturelSerializer(serializers.ModelSerializer):
 #---------------------------------------------------------------
 
 class CommuneSerializer(serializers.ModelSerializer):
-    # Imbrication des quartiers, sites, établissements et infrastructures
+    district_nom = serializers.CharField(source='district.nom', read_only=True)
+    district_slug = serializers.SlugField(source='district.slug', read_only=True)
     quartiers = QuartierSerializer(many=True, read_only=True)
     sites_culturels = SiteCulturelSerializer(many=True, read_only=True, source='siteculturel_set')
     etablissements = EtablissementSerializer(many=True, read_only=True, source='etablissement_set')
-    
     ecoles = EcoleSerializer(many=True, read_only=True, source='ecole_set')
     eglises = EgliseSerializer(many=True, read_only=True, source='eglise_set')
     usines = UsineSerializer(many=True, read_only=True, source='usine_set')
@@ -94,10 +94,11 @@ class CommuneSerializer(serializers.ModelSerializer):
     class Meta:
         model = Commune
         fields = [
-            'id', 'nom', 'type_commune', 'population', 'surface', 
-            'latitude', 'longitude', 'quartiers', 'sites_culturels', 
-            'etablissements', 'ecoles', 'eglises', 'usines'
+            'id', 'nom', 'type_commune', 'population', 'surface',
+            'latitude', 'longitude', 'district_nom', 'district_slug',
+            'quartiers', 'sites_culturels', 'etablissements', 'ecoles', 'eglises', 'usines'
         ]
+
 
 class DistrictSerializer(serializers.ModelSerializer):
     communes = CommuneSerializer(many=True, read_only=True)
@@ -112,6 +113,7 @@ class DistrictSerializer(serializers.ModelSerializer):
             'latitude', 'longitude', 'distance_vers_antsohihy', 'description_climat',
             'meteo_info', 'nb_commune', 'communes', 'contenus_ia', 'statistiques', 'photos'
         ]
+
 
 class RegionSerializer(serializers.ModelSerializer):
     districts = DistrictSerializer(many=True, read_only=True)
