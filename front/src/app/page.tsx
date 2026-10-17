@@ -13,7 +13,7 @@ export default async function Home() {
     <main className="min-h-screen px-6 py-16 max-w-6xl mx-auto">
       <section className="mb-16 max-w-2xl">
         <p className="uppercase tracking-widest text-sm text-(--color-mada-vert) mb-3">
-          Région Sofia · Madagascar
+          Madagasikara · Région Sofia 
         </p>
         <h1 className="font-(family-name:--font-heading) text-5xl md:text-6xl mb-4">
           L&apos;Intelligence <span className="text-(--color-mada-rouge) italic">Territoriale</span>
@@ -27,7 +27,7 @@ export default async function Home() {
       <section className="grid md:grid-cols-2 gap-8 mb-20">
         <div className="text-center">
           <h2 className="font-(family-name:--font-heading) text-xl mb-4">
-            Localisation à Madagascar
+            Localisation à Madagasikara
           </h2>
           <div className="mx-auto w-full max-w-[320px] aspect-140/263">
             <MadagascarLocatorMap />

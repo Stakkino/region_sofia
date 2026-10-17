@@ -11,3 +11,9 @@ export async function fetchDistrict(slug: string) {
   if (!res.ok) throw new Error("District introuvable");
   return res.json();
 }
+
+export async function fetchCommunes() {
+  const res = await fetch(`${API_URL}/communes/`, { next: { revalidate: 60 } });
+  if (!res.ok) throw new Error("Erreur lors du chargement des communes");
+  return res.json();
+}

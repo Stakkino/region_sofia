@@ -27,7 +27,7 @@ export default async function DistrictsPage() {
     <main className="min-h-screen px-6 py-16 max-w-5xl mx-auto">
       <header className="mb-12 text-center">
         <p className="uppercase tracking-widest text-sm text-(--color-mada-vert) mb-3">
-          Région Sofia · Madagascar
+          Madagasikara · Région Sofia
         </p>
         <h1 className="font-(family-name:--font-heading) text-5xl mb-4">
           Les Districts
