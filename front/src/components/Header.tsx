@@ -48,13 +48,13 @@ export default function Header() {
         </div>
 
         {open && (
-          <nav className="md:hidden flex flex-col gap-1 px-5 pb-4 border-t border-black/5">
+          <nav className="md:hidden flex flex-col items-center gap-1 px-5 pb-6 pt-2 border-t border-black/5 text-center">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="py-3 text-sm font-medium border-b border-black/5 last:border-0"
+                className="w-full py-3 text-sm font-medium border-b border-black/5 last:border-0"
               >
                 {link.label}
               </Link>
@@ -62,13 +62,13 @@ export default function Header() {
             <Link
               href="/a-propos#proposer"
               onClick={() => setOpen(false)}
-              className="mt-3 text-center text-sm font-semibold px-4 py-2.5 rounded-full bg-(--color-mada-rouge) text-white"
+              className="mt-4 inline-block text-sm font-semibold px-6 py-2.5 rounded-full bg-[var(--color-mada-rouge)] text-white"
             >
               Proposer un lieu
             </Link>
           </nav>
         )}
-      </header>
+              </header>
     </div>
   );
 }
