@@ -95,28 +95,28 @@ export default function AProposPage() {
             <Step numero="3" texte="Votre établissement apparaît sur SOFIA sous quelques jours" />
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <div className="flex flex-col sm:flex-row flex-wrap gap-3 justify-center">
             <a
-              href="mailto:jhenstakkino@gmail.com"
-              className="flex items-center justify-center gap-2 bg-white text-(--color-mada-vert) font-semibold px-6 py-3 rounded-full hover:bg-(--color-fond) transition-colors"
+                href="mailto:jhenstakkino@gmail.com"
+                className="inline-flex items-center justify-center gap-2 whitespace-nowrap bg-white text-(--color-mada-vert) font-semibold px-5 py-3 rounded-full text-sm sm:text-base hover:bg-(--color-fond) transition-colors"
             >
-              <Mail size={18} /> jhenstakkino@gmail.com
+                <Mail size={18} className="shrink-0" /> jhenstakkino@gmail.com
             </a>
             <a
-              href="https://wa.me/261388086533"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 bg-white/15 border border-white/30 font-semibold px-6 py-3 rounded-full hover:bg-white/25 transition-colors"
+                href="https://wa.me/261388086533"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 whitespace-nowrap bg-white/15 border border-white/30 font-semibold px-5 py-3 rounded-full text-sm sm:text-base hover:bg-white/25 transition-colors"
             >
-              <MessageCircle size={18} /> +261 38 80 865 33
+                <MessageCircle size={18} className="shrink-0" /> +261 38 80 865 33
             </a>
             <a
-              href="https://wa.me/261324955940"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 bg-white/15 border border-white/30 font-semibold px-6 py-3 rounded-full hover:bg-white/25 transition-colors"
+                href="https://wa.me/261324955940"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 whitespace-nowrap bg-white/15 border border-white/30 font-semibold px-5 py-3 rounded-full text-sm sm:text-base hover:bg-white/25 transition-colors"
             >
-              <Phone size={18} /> +261 32 49 559 40
+                <Phone size={18} className="shrink-0" /> +261 32 49 559 40
             </a>
           </div>
         </div>
